@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include "Leitura.h"
 #include "Menu.h"
 using namespace std;
 
@@ -40,7 +42,15 @@ void Menu::ExibirMenu(){
 
 
 void Menu::Parte1(){
-    cout << "Voce entrou na aprte 1" << endl;
+    fstream myfile;
+	myfile.open("ratings.csv");
+	if(myfile.is_open()){
+        myfile.seekg(0, ios::end);
+        int bytes = myfile.tellg();
+        //Leitura::setBytes(bytes);
+        ArvoreVP *arvoreVP;
+        Leitura::realizarLeitura(bytes, 10, &myfile, arvoreVP);
+	}
 }
 void Menu::Parte2(){
     cout << "Parte 2" << endl;

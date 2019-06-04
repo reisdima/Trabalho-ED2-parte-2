@@ -1,6 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
+#include "ArvoreVP.h"
 
+using namespace std;
 
 class Menu
 {

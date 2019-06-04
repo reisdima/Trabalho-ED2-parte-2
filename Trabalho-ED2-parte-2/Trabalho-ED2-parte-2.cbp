@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -36,6 +37,8 @@
 		<Unit filename="ArvoreB.h" />
 		<Unit filename="ArvoreVP.cpp" />
 		<Unit filename="ArvoreVP.h" />
+		<Unit filename="Leitura.cpp" />
+		<Unit filename="Leitura.h" />
 		<Unit filename="Menu.cpp" />
 		<Unit filename="Menu.h" />
 		<Unit filename="NoB.cpp" />
