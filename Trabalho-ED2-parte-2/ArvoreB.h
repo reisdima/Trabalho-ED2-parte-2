@@ -1,16 +1,24 @@
 #ifndef ARVOREB_H
 #define ARVOREB_H
-
+#include "NoB.h"
+#include "Registro.h"
 
 class ArvoreB
 {
-    public:
-        ArvoreB();
-        virtual ~ArvoreB();
+public:
+    ArvoreB(int d);
+    ~ArvoreB();
 
-    protected:
+    //Funções
+    void Inserir(Registro *registro);
+    bool Buscar(Registro *registro);
+    bool Buscar(Registro *registro, NoB **pt, int *posicaoChave);
 
-    private:
+private:
+    NoB *raiz;
+    int d;
+
+
 };
 
 #endif // ARVOREB_H
