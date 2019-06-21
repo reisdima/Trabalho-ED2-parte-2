@@ -74,7 +74,7 @@ void Leitura::realizarLeitura(int bytes, int N, fstream *myfile, ArvoreVP *arvor
         iss >> timestamp;
         cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl << endl;
         Registro *novoRegistro = new Registro(userId, movieId, rating, timestamp);
-        arvoreVP->Inserir(novoRegistro);
+      //  arvoreVP->Inserir(novoRegistro);
     }
 
 }

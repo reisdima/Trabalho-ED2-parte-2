@@ -50,6 +50,7 @@ void Menu::Parte1(){
         //Leitura::setBytes(bytes);
         ArvoreVP *arvoreVP;
         Leitura::realizarLeitura(bytes, 10, &myfile, arvoreVP);
+
 	}
 }
 void Menu::Parte2(){

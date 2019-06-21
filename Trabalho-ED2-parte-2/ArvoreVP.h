@@ -7,7 +7,16 @@ class ArvoreVP
 public:
     ArvoreVP();
     ~ArvoreVP();
-    void Inserir(Registro *registro);
+    void Inserir(const int &n);
+    void emOrdem();
+    void nivelOrdem();
+    void auxEmOrdem(NoVP *raiz);
+    NoVP* AVPInserir(NoVP* raiz, NoVP* pt);
+    void auxNivelOrdem(NoVP *raiz);
+protected:
+    void rotacionaEsquerda(NoVP *&,NoVP *& );
+    void rotacionaDireita(NoVP *&,NoVP *& );
+    void correcao(NoVP *&,NoVP *& );
 
 private:
     NoVP *raiz;

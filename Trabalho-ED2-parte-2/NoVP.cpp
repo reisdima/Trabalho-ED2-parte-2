@@ -1,9 +1,11 @@
 #include "NoVP.h"
+#include <iostream>
+using namespace std;
 
-NoVP::NoVP(Registro *registro)
+NoVP::NoVP(int valor)
 {
-    this->registro = registro;
-    cor = 1;
+    this->valor = valor;
+    esquerda=direita = pai = NULL;
 }
 
 NoVP::~NoVP()
@@ -11,16 +13,10 @@ NoVP::~NoVP()
     //dtor
 }
 
-
-void NoVP::setCor(int cor){
-    this->cor = cor;
-}
-
-
 int NoVP::getUserId(){
-    return this->registro->getMovieId();
+   // return this->registro->getMovieId();
 }
 
 int NoVP::getMovieId(){
-    return this->registro->getMovieId();
+  //  return this->registro->getMovieId();
 }

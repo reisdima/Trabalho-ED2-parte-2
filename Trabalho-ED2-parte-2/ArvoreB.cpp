@@ -69,7 +69,7 @@ void ArvoreB::Inserir(Registro *registro){
         else{
             Registro **registros = pt->getRegistros();
             for(int j = numeroChaves - 1; j >= posicaoChave; j--){  //Loop para puxar valores para frente no vetor
-                registros[j+1] = registro[j];                       //para inserir o novo valor
+                registros[j+1] = registros[j];                       //para inserir o novo valor
             }
             registros[posicaoChave] = registro;
             pt->numeroChaves = pt->numeroChaves + 1;
