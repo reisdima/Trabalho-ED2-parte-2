@@ -13,6 +13,9 @@ public:
     void Inserir(Registro *registro);
     bool Buscar(Registro *registro);
     bool Buscar(Registro *registro, NoB **pt, int *posicaoChave);
+    void Cisao(Registro *registro, NoB **pt, int posicaoChave);
+    void inserirNaoNulo(Registro *registro, NoB **pt, int posicaoChave);
+    int Inserir(Registro *registro, NoB **pt);
 
 private:
     NoB *raiz;

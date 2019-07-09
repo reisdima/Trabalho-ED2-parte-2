@@ -14,6 +14,7 @@ public:
     NoB *getFilho(int i);
     bool ehFolha();
     NoB *getPai();
+    NoB **getFilhos();
 
     //setters
     void setPai(NoB *no);
