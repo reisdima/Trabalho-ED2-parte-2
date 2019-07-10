@@ -162,7 +162,7 @@ void printHuffman(struct MinHeapNo* raiz, int vet[], int topo){
 }
 
 void Huffman(char dado[], int freq[], int tam){
-    struct MinHeapNo* raiz=montaHuffman(dado,freq,tam);
+    struct MinHeapNo* raiz = montaHuffman(dado,freq,tam);
     int vet[ALTMAX], topo=0;
     printHuffman(raiz,vet,topo);
 }

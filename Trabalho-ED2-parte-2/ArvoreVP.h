@@ -8,6 +8,7 @@ public:
     ArvoreVP();
     ~ArvoreVP();
     void Inserir(const int &n);
+    void Inserir(Registro *registro);
     void emOrdem();
     void nivelOrdem();
     void auxEmOrdem(NoVP *raiz);

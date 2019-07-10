@@ -170,6 +170,12 @@ void ArvoreVP::correcao(NoVP *&raiz,NoVP *&pt){
     raiz->cor=PRETO;
 }
 
+void ArvoreVP::Inserir(Registro *registro){
+    NoVP *pt = new NoVP(registro);
+    raiz = AVPInserir(raiz, pt);
+    correcao(raiz, pt);
+}
+
 void ArvoreVP::Inserir(const int &valor){
     NoVP *pt=new NoVP(valor);
     raiz=AVPInserir(raiz,pt);
