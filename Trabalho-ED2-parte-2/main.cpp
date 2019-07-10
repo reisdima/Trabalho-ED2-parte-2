@@ -5,11 +5,11 @@ using namespace std;
 
 int main()
 {
-    ArvoreB arvore(2);
+    //ArvoreB arvore(2);
 
 
-    /*
+
     Menu menu;
-    menu.ExibirMenu();*/
+    menu.ExibirMenu();
     return 0;
 }
