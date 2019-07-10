@@ -41,7 +41,7 @@ void Leitura::realizarLeitura(int bytes, int N, fstream *myfile, ArvoreVP *arvor
         myfile->seekg(posicaoRandom, ios::beg);
         getline(*myfile, str);
         getline(*myfile, str);
-        cout << "String: " << str << endl;
+        //cout << "String: " << str << endl;
         int pos = 0;
         istringstream iss;
         string aux;
@@ -72,9 +72,9 @@ void Leitura::realizarLeitura(int bytes, int N, fstream *myfile, ArvoreVP *arvor
         }
         iss.str(str);
         iss >> timestamp;
-        cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl << endl;
+        //cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl << endl;
         Registro *novoRegistro = new Registro(userId, movieId, rating, timestamp);
-        //arvoreVP->Inserir(novoRegistro);
+        arvoreVP->Inserir(novoRegistro);
     }
 }
 

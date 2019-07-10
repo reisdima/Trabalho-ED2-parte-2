@@ -12,8 +12,9 @@ public:
     void emOrdem();
     void nivelOrdem();
     void auxEmOrdem(NoVP *raiz);
-    NoVP* AVPInserir(NoVP* raiz, NoVP* pt);
+    NoVP* AVPInserir(NoVP *raiz, NoVP *pt);
     void auxNivelOrdem(NoVP *raiz);
+
 protected:
     void rotacionaEsquerda(NoVP *&,NoVP *& );
     void rotacionaDireita(NoVP *&,NoVP *& );

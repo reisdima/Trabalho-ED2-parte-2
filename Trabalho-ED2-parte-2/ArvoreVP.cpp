@@ -6,7 +6,7 @@ using namespace std;
 
 ArvoreVP::ArvoreVP()
 {
-    raiz = NULL;
+    this->raiz = NULL;
 }
 
 ArvoreVP::~ArvoreVP()
@@ -16,27 +16,36 @@ ArvoreVP::~ArvoreVP()
 
 
 void ArvoreVP::auxEmOrdem(NoVP *raiz){
+    int userId1 = raiz->getUserId();
+    int movieId1 = raiz->getMovieId();
     if(raiz==NULL){
         return;
     }
     auxEmOrdem(raiz->esquerda);
-    cout<<raiz->valor<<" ";
     auxEmOrdem(raiz->direita);
 }
 
-NoVP* ArvoreVP::AVPInserir(NoVP* raiz, NoVP* pt){
-    if(raiz==NULL){
+NoVP* ArvoreVP::AVPInserir(NoVP *noRaiz, NoVP *pt){
+    if(noRaiz==NULL){
         return pt;
     }
-    if(pt->valor < raiz->valor){
-        raiz->esquerda = AVPInserir(raiz->esquerda, pt);
-        raiz->esquerda->pai=raiz;
+    int userId1 = noRaiz->getUserId();
+    int movieId1 = noRaiz->getMovieId();
+    int userId2 = pt->getUserId();
+    int movieId2 = pt->getMovieId();
+
+    if(userId2<userId1||(userId2 == userId1 && movieId2 < movieId1)){
+            noRaiz->esquerda=AVPInserir(noRaiz->esquerda, pt);
     }
-    else if(pt->valor > raiz->valor){
-        raiz->direita = AVPInserir(raiz->direita, pt);
-        raiz->direita->pai=raiz;
+    else if(userId2>userId1||(userId2 == userId1 && movieId2>movieId1)){
+        noRaiz->direita = AVPInserir(noRaiz->direita, pt);
+        noRaiz->direita->pai=noRaiz;
     }
-    return raiz;
+    //else if(pt->valor > raiz->valor){
+    //    raiz->direita = AVPInserir(raiz->direita, pt);
+    //    raiz->direita->pai=raiz;
+    //}
+    return noRaiz;
 }
 
 void ArvoreVP::auxNivelOrdem(NoVP *raiz){
@@ -176,11 +185,11 @@ void ArvoreVP::Inserir(Registro *registro){
     correcao(raiz, pt);
 }
 
-void ArvoreVP::Inserir(const int &valor){
-    NoVP *pt=new NoVP(valor);
-    raiz=AVPInserir(raiz,pt);
-    correcao(raiz,pt);
-}
+//void ArvoreVP::Inserir(const int &valor){
+//    NoVP *pt=new NoVP(valor);
+//   raiz=AVPInserir(raiz,pt);
+//    correcao(raiz,pt);
+//}
 
 void ArvoreVP::emOrdem(){
     auxEmOrdem(raiz);
