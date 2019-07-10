@@ -1,21 +1,24 @@
 #ifndef NOVP_H
 #define NOVP_H
 #include "Registro.h"
+using namespace std;
 
 
+enum Cor{VERMELHO,PRETO};
 class NoVP
 {
 public:
-    NoVP(Registro *registro);
+    bool cor; //0 = preto; 1 = vermelho
+    int valor;
+    NoVP *esquerda, *direita, *pai;
+    NoVP(int valor);
     ~NoVP();
-    void setCor(int cor);
 
     int getMovieId();
     int getUserId();
 
 private:
-    int cor; //0 = preto; 1 = vermelho
-    Registro *registro;
+
 };
 
 #endif // NOVP_H
