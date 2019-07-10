@@ -2,6 +2,7 @@
 #include <fstream>
 #include "Leitura.h"
 #include "Menu.h"
+#include "LZW.h"
 using namespace std;
 
 Menu::Menu()
@@ -56,4 +57,9 @@ void Menu::Parte1(){
 }
 void Menu::Parte2(){
     cout << "Parte 2" << endl;
+    string texto = "bananabanabofanas";
+    LZW teste(texto);
+    teste.codificar();
+    teste.imprimirCodigo();
+
 }
