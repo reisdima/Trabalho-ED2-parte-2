@@ -218,3 +218,20 @@ void ArvoreVP::emOrdem(){
 void ArvoreVP::nivelOrdem(){
     auxNivelOrdem(raiz);
 }
+
+
+
+unsigned long int ArvoreVP::getNumeroComparacao(){
+    return this->numeroComparacao;
+}
+
+unsigned long int ArvoreVP::getNumeroCopias(){
+    return this->numeroCopias;
+}
+
+
+unsigned long int ArvoreVP::getNumeroComparacaoBusca(){
+    return this->numeroComparacaoBusca;
+}
+
+

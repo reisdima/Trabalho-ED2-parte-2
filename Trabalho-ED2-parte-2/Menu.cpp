@@ -56,14 +56,14 @@ void Menu::Parte1_ArvoreB(){
     fstream myfile;
     ofstream arquivoSaida;
 	myfile.open("ratings.csv");
-	arquivoSaida.open("teste.txt");
+	arquivoSaida.open("arvoreB.txt");
 	if(myfile.is_open() && arquivoSaida.is_open()){
         myfile.seekg(0, ios::end);
         int bytes = myfile.tellg();
-        for(int i = 0; i < 1; i ++){
+        for(int i = 0; i < tamanhoN; i++){
             cout << "PARA N = " << vetorN[i] << endl << endl;
             arquivoSaida << "PARA N = " << vetorN[i] << endl << endl;
-            for(int j = 0; j < 1; j++){
+            for(int j = 0; j < 5; j++){
                 ArvoreB *arvoreB = new ArvoreB(2);
                 std::chrono::time_point<std::chrono::system_clock> comeco, fim;
                 comeco = std::chrono::system_clock::now();
@@ -94,22 +94,52 @@ void Menu::Parte1_ArvoreB(){
 }
 
 void Menu::Parte1_ArvoreVP(){
-    unsigned long int numeroComparacao = 0;
-    unsigned long int numeroCopias = 0;
+    unsigned long int numeroComparacao[tamanhoN];
+    unsigned long int numeroCopias[tamanhoN];
+    double tempoTotal[tamanhoN];
+    for(int i = 0; i < tamanhoN; i ++){
+        cout << vetorN[i] << endl;
+        numeroComparacao[i] = 0;
+        numeroCopias[i] = 0;
+        tempoTotal[i] = 0;
+    }
     fstream myfile;
+    ofstream arquivoSaida;
 	myfile.open("ratings.csv");
-	if(myfile.is_open()){
+	arquivoSaida.open("arvoreVP.txt");
+	if(myfile.is_open() && arquivoSaida.is_open()){
         myfile.seekg(0, ios::end);
         int bytes = myfile.tellg();
-        for(int i = 0; i < tamanhoN; i ++){
+        for(int i = 0; i < tamanhoN; i++){
+            cout << "PARA N = " << vetorN[i] << endl << endl;
+            arquivoSaida << "PARA N = " << vetorN[i] << endl << endl;
             for(int j = 0; j < 5; j++){
                 ArvoreVP *arvoreVP = new ArvoreVP();
+                std::chrono::time_point<std::chrono::system_clock> comeco, fim;
+                comeco = std::chrono::system_clock::now();
                 Leitura::realizarLeitura(bytes, vetorN[i], &myfile, arvoreVP);
-                cout << numeroComparacao << endl;
-                cout << numeroCopias << endl << endl;
+                fim = std::chrono::system_clock::now();
+                double total = std::chrono::duration_cast<std::chrono::milliseconds>(fim - comeco).count();
+                tempoTotal[i] += total;
+                numeroComparacao[i] += arvoreVP->getNumeroComparacao();
+                numeroCopias[i] += arvoreVP->getNumeroCopias();
             }
+            cout << "Tempo total para as 5 iteracoes: " << tempoTotal[i] << endl;
+            cout << "Numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i] << endl;
+            cout << "Numero de copia para as 5 iteracoes: " << numeroCopias[i] << endl;
+            cout << "Media de tempo para as 5 iteracoes: " << tempoTotal[i]/5 << endl;
+            cout << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
+            cout << "Media do numero de copia para as 5 iteracoes: " << numeroCopias[i]/5 << endl;
+            arquivoSaida << "Tempo total para as 5 iteracoes: " << tempoTotal[i] << endl;
+            arquivoSaida << "Numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i] << endl;
+            arquivoSaida << "Numero de copia para as 5 iteracoes: " << numeroCopias[i] << endl;
+            arquivoSaida << "Media de tempo para as 5 iteracoes: " << tempoTotal[i]/5 << endl;
+            arquivoSaida << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
+            arquivoSaida << "Media do numero de copia para as 5 iteracoes: " << numeroCopias[i]/5 << endl;
+            cout << endl << endl;
+            arquivoSaida << endl << endl;
         }
-
+        arquivoSaida.close();
 	}
 	else{
         cout << "Arquivo nao encontrado" << endl;
@@ -124,8 +154,10 @@ void Menu::Parte1(){
         int bytes = myfile.tellg();
         for(int i = 0; i < 10; i ++){
             for(int j = 0; j < 50; j++){
+            for(int j = 0; j < 1; j++){
                 ArvoreVP *arvoreVP = new ArvoreVP();
-                Leitura::realizarLeitura(bytes, 5, &myfile, arvoreVP);
+                Leitura::realizarLeitura(bytes, vetorN[i], &myfile, arvoreVP);
+            }
             }
         }
 	}
@@ -163,5 +195,7 @@ void Menu::leituraN(){
             iss.clear();
             vetorN[i] = auxInt;
         }
+        for(int i = 0 ; i < tamanhoN; i++)
+            cout << vetorN[i] << endl;
     }
 }

@@ -77,7 +77,7 @@ void Leitura::realizarLeitura(int bytes, int N, fstream *myfile, ArvoreVP *arvor
     }
 }
 
-void Leitura::realizarLeitura(int bytes, int N, fstream *myfile, ArvoreB *arvoreBg){
+void Leitura::realizarLeitura(int bytes, int N, fstream *myfile, ArvoreB *arvoreB){
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         mt19937 generator(seed);
         uniform_int_distribution<uint32_t> random(1, bytes);

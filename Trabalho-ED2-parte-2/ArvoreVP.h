@@ -15,6 +15,10 @@ public:
     NoVP* AVPInserir(NoVP *raiz, NoVP *pt);
     void auxNivelOrdem(NoVP *raiz);
 
+    unsigned long int getNumeroComparacao();
+    unsigned long int getNumeroComparacaoBusca();
+    unsigned long int getNumeroCopias();
+
 protected:
     void rotacionaEsquerda(NoVP *&,NoVP *& );
     void rotacionaDireita(NoVP *&,NoVP *& );
