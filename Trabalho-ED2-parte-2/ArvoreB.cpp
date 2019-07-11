@@ -26,7 +26,7 @@ bool ArvoreB::Buscar(Registro *registro){
                                    (registroAux[i]->getUserId() == userId && registroAux[i]->getMovieId() < movieId))){
             i++;
         }
-        if(userId == registroAux[i]->getUserId() && movieId == registroAux[i]->getMovieId())
+        if(registroAux[i] != NULL && userId == registroAux[i]->getUserId() && movieId == registroAux[i]->getMovieId())
             return true;
         if(aux->ehFolha())
             return false;
@@ -64,7 +64,6 @@ void ArvoreB::Inserir(Registro *registro){
     NoB *pt = NULL;
     int posicaoChave = 0;
     bool achou = Buscar(registro, &pt, &posicaoChave);
-    cout << "oi" << endl;
     if(!achou){                                                     //Se não achou, inserir o valor na árvore
         if(pt->numeroChaves == 2*d){                                    //Se o numero de chaves no vetor for 2*d precisa fazer cisão
             Cisao(registro, &pt, posicaoChave, NULL);
@@ -104,10 +103,12 @@ void ArvoreB::Cisao(Registro *registro, NoB **pt, int posicaoChave, NoB *outroNo
     novoNo->numeroChaves = d;
     NoB** filhosNovoNo = novoNo->getFilhos();
     NoB** filhosPt = (*pt)->getFilhos();
-
-    filhosNovoNo[0] = filhosPt[3];
-    filhosNovoNo[1] = filhosPt[4];
-    filhosNovoNo[2] = outroNo;
+    k = numeroChaves;
+    for(int i = 0; i < d; i++){
+        filhosNovoNo[i] = filhosPt[k];
+        k--;
+    }
+    filhosNovoNo[d] = outroNo;
     if(outroNo != NULL){
         novoNo->setFolha(false);
         outroNo->setPai(novoNo);
