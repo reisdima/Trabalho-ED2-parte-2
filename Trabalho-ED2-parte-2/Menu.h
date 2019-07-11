@@ -11,8 +11,13 @@ public:
     ~Menu();
     void ExibirMenu();
 private:
+    int *vetorN;
+    int tamanhoN;
+    void Parte1_ArvoreB();
+    void Parte1_ArvoreVP();
     void Parte1();
     void Parte2();
+    void leituraN();
 };
 
 #endif // MENU_H

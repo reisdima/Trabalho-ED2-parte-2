@@ -177,34 +177,6 @@ int main()
     Menu menu;
     menu.ExibirMenu();
 
-/**
-    TESTE ARVORE VERMELHO-PRETO
-    ArvoreVP arvoreVP;
-
-    arvoreVP.Inserir(7);
-    arvoreVP.Inserir(6);
-    arvoreVP.Inserir(5);
-    arvoreVP.Inserir(4);
-    arvoreVP.Inserir(3);
-    arvoreVP.Inserir(2);
-    arvoreVP.Inserir(1);
-
-    cout << "Inoder Traversal of Created Tree\n";
-    arvoreVP.emOrdem();
-
-    cout << "\n\nLevel Order Traversal of Created Tree\n";
-    arvoreVP.nivelOrdem();
-
- */
-
-
-/**
-    TESTE CODIFICAÇÃO HUFFMAN
-    char vet[]={ 'a', 'b', 'c', 'd', 'e', 'f' };
-    int freq[]={ 5, 9, 12, 13, 16, 45 };
-    int tam = sizeof(vet)/sizeof(vet[0]);
-    Huffman(vet,freq,tam);
- */
 
     return 0;
 }

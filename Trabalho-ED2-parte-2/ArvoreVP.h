@@ -18,10 +18,14 @@ public:
 protected:
     void rotacionaEsquerda(NoVP *&,NoVP *& );
     void rotacionaDireita(NoVP *&,NoVP *& );
-    void correcao(NoVP *&,NoVP *& );
+    void correcao(NoVP *raiz,NoVP *pt);
 
 private:
     NoVP *raiz;
+    unsigned long int numeroComparacao;
+    unsigned long int numeroComparacaoBusca;
+    unsigned long int numeroCopias;
+
 };
 
 #endif // ARVOREVP_H

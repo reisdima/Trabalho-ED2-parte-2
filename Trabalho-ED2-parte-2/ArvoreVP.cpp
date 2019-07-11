@@ -6,6 +6,9 @@ using namespace std;
 
 ArvoreVP::ArvoreVP()
 {
+    this->numeroComparacao = 0;
+    this->numeroComparacaoBusca = 0;
+    this->numeroCopias = 0;
     this->raiz = NULL;
 }
 
@@ -18,6 +21,8 @@ ArvoreVP::~ArvoreVP()
 void ArvoreVP::auxEmOrdem(NoVP *raiz){
     int userId1 = raiz->getUserId();
     int movieId1 = raiz->getMovieId();
+    numeroComparacao++;
+    numeroCopias++;
     if(raiz==NULL){
         return;
     }
@@ -26,6 +31,7 @@ void ArvoreVP::auxEmOrdem(NoVP *raiz){
 }
 
 NoVP* ArvoreVP::AVPInserir(NoVP *noRaiz, NoVP *pt){
+    numeroComparacao++;
     if(noRaiz==NULL){
         return pt;
     }
@@ -33,163 +39,177 @@ NoVP* ArvoreVP::AVPInserir(NoVP *noRaiz, NoVP *pt){
     int movieId1 = noRaiz->getMovieId();
     int userId2 = pt->getUserId();
     int movieId2 = pt->getMovieId();
-
-    if(userId2<userId1||(userId2 == userId1 && movieId2 < movieId1)){
-            noRaiz->esquerda=AVPInserir(noRaiz->esquerda, pt);
+    numeroCopias += 4;
+    numeroComparacao += 3;
+    if(userId2 < userId1 || (userId2 == userId1 && movieId2 < movieId1)){
+        numeroCopias +=2 ;
+        noRaiz->esquerda = AVPInserir(noRaiz->esquerda, pt);
+        noRaiz->esquerda->pai = noRaiz;
     }
-    else if(userId2>userId1||(userId2 == userId1 && movieId2>movieId1)){
+    else if(userId2 > userId1 || (userId2 == userId1 && movieId2 > movieId1)){
+        numeroComparacao += 3;
+        numeroCopias += 2;
         noRaiz->direita = AVPInserir(noRaiz->direita, pt);
-        noRaiz->direita->pai=noRaiz;
+        noRaiz->direita->pai = noRaiz;
     }
-    //else if(pt->valor > raiz->valor){
-    //    raiz->direita = AVPInserir(raiz->direita, pt);
-    //    raiz->direita->pai=raiz;
-    //}
     return noRaiz;
 }
 
 void ArvoreVP::auxNivelOrdem(NoVP *raiz){
+    numeroComparacao++;
     if(raiz==NULL){
         return;
     }
         std::queue<NoVP *> q;
         q.push(raiz);
+        numeroComparacao++;
         while(!q.empty()){
             NoVP *temp = q.front();
             cout<<temp->valor<<" ";
             q.pop();
-            if(temp->esquerda!=NULL){
+            numeroComparacao++;
+            if(temp->esquerda != NULL){
                 q.push(temp->esquerda);
             }
-            if(temp->direita!=NULL){
+            numeroComparacao++;
+            if(temp->direita != NULL){
                 q.push(temp->direita);
             }
+            numeroComparacao++;
         }
 }
 
 void ArvoreVP::rotacionaEsquerda(NoVP *&raiz,NoVP *&pt ){
     NoVP *ptDireita = pt->direita;
     pt->direita = ptDireita->esquerda;
-    if(pt->direita!=NULL){
+    numeroCopias += 2;
+    numeroComparacao++;
+    if(pt->direita != NULL){
         pt->direita->pai = pt;
+        numeroCopias++;
     }
     ptDireita->pai = pt->pai;
-    if(pt->pai==NULL){
-        raiz=ptDireita;
+    numeroCopias++;
+    numeroComparacao++;
+    if(pt->pai == NULL){
+        raiz = ptDireita;
+        numeroCopias++;
     }
-    else if(pt==pt->pai->esquerda){
-        pt->pai->esquerda= ptDireita;
+    else if(pt == pt->pai->esquerda){
+        numeroComparacao++;
+        numeroCopias++;
+        pt->pai->esquerda = ptDireita;
     }
     else{
         pt->pai->direita=ptDireita;
+        numeroCopias++;
     }
-    ptDireita->esquerda=pt;
-    pt->pai=ptDireita;
+    ptDireita->esquerda = pt;
+    pt->pai = ptDireita;
+    numeroCopias += 2;
 }
 
-void ArvoreVP::rotacionaDireita(NoVP *&raiz,NoVP *&pt ){
+void ArvoreVP::rotacionaDireita(NoVP *&noRaiz,NoVP *&pt ){
     NoVP *ptEsquerda = pt->esquerda;
     pt->esquerda = ptEsquerda->direita;
-    if(pt->esquerda!=NULL){
+    numeroCopias += 2;
+    numeroComparacao++;
+    if(pt->esquerda != NULL){
         pt->esquerda->pai = pt;
+        numeroCopias++;
     }
+
     ptEsquerda->pai = pt->pai;
-    if(pt->pai==NULL){
-        raiz=ptEsquerda;
+    numeroComparacao++;
+    numeroCopias++;
+    if(pt->pai == NULL){
+        noRaiz = ptEsquerda;
+        numeroCopias++;
     }
-    else if(pt==pt->pai->esquerda){
-        pt->pai->esquerda= ptEsquerda;
+    else if(pt == pt->pai->esquerda){
+        numeroComparacao++;
+        numeroCopias++;
+        pt->pai->esquerda = ptEsquerda;
     }
     else{
-        pt->pai->direita=ptEsquerda;
+        pt->pai->direita = ptEsquerda;
+        numeroCopias++;
     }
-    ptEsquerda->direita=pt;
-    pt->pai=ptEsquerda;
+    ptEsquerda->direita = pt;
+    pt->pai = ptEsquerda;
+    numeroCopias += 2;
 }
 
-void ArvoreVP::correcao(NoVP *&raiz,NoVP *&pt){
-    NoVP *paiPt=NULL;
-    NoVP *avoPt=NULL;
-    while((pt!=raiz)&&pt->cor!=PRETO&&(pt->pai->cor==VERMELHO)){
-        paiPt=pt->pai;
-        avoPt=pt->pai->pai;
-        /**
-         Caso 1 (pai de pt é filho esquerdo do avo)
-         */
-        if(paiPt==avoPt->esquerda){
-            NoVP *tioPt=avoPt->direita;
-            /**
-             Caso 1.1 (tio do pt tambem é vermelho, é só recolorir)
-             */
-             if(tioPt!=NULL&&tioPt->cor==VERMELHO){
-                avoPt->cor=VERMELHO;
-                paiPt->cor=PRETO;
-                tioPt->cor=PRETO;
-                pt=avoPt;
-             }
-             else{
-                 /**
-                 Caso 1.2 (pt é filho direito do pai, é só fazer a rotação esquerda)
-                 */
-                 if(pt==paiPt->direita){
-                    rotacionaEsquerda(raiz,paiPt);
-                    pt=paiPt;
-                    paiPt=pt->pai;
-                 }
-                 /**
-                 Caso 1.3 (pt é filho esquerdo do pai, é só fazer a rotação direita)
-                 */
-                 rotacionaDireita(raiz,avoPt);
-                 swap(paiPt->cor,avoPt->cor);
-                 pt=paiPt;
-             }
-        }
-        /**
-         Caso 2 (pai de pt é filho esquerdo do avo)
-         */
-         else{
-            NoVP *tioPt = avoPt->esquerda;
-            /**
-             Caso 2.1 (tio do pt tambem é vermelho, só precisa recolorir)
-             */
-            if((tioPt!=NULL)&&(tioPt->cor==VERMELHO)){
-                avoPt->cor=VERMELHO;
-                paiPt->cor=PRETO;
-                tioPt->cor=PRETO;
-                pt=avoPt;
+void ArvoreVP::correcao(NoVP *raiz, NoVP *ponteiro){
+    NoVP *paiPt = NULL;
+    NoVP *avoPt = NULL;
+    numeroComparacao += 3;
+    while((ponteiro != raiz) && ponteiro->cor != false && (ponteiro->pai->cor == true)){
+        paiPt = ponteiro->pai;
+        avoPt = ponteiro->pai->pai;
+        numeroCopias += 2;
+        numeroComparacao++;
+        if(paiPt == avoPt->esquerda){
+            NoVP *tioPt = avoPt->direita;
+            numeroCopias++;
+            numeroComparacao += 2;
+            if(tioPt != NULL && tioPt->cor == true){
+                avoPt->cor=true;
+                paiPt->cor=false;
+                tioPt->cor=false;
+                ponteiro = avoPt;
+                numeroCopias++;
             }
-            /**
-             Caso 2.2 (pt é filho esquerdo do pai, so precisar rotacionar direita)
-             */
             else{
-                if(pt==paiPt->esquerda){
-                    rotacionaDireita(raiz,paiPt);
-                    pt=paiPt;
-                    paiPt=pt->pai;
+                numeroComparacao++;
+                if(ponteiro == paiPt->direita){
+                    rotacionaEsquerda(raiz, paiPt);
+                    ponteiro = paiPt;
+                    paiPt = ponteiro->pai;
+                    numeroCopias += 2;
                 }
-                /**
-                 Caso 2.3 (pt é filho direito do pai, so precisar rotacionar esquerda)
-                 */
-                 rotacionaEsquerda(raiz,avoPt);
-                 swap(paiPt->cor, avoPt->cor);
-                 pt=paiPt;
+
+                rotacionaDireita(raiz, avoPt);
+                swap(paiPt->cor, avoPt->cor);;
+                ponteiro = paiPt;
+                numeroCopias += 2;
+            }
+        }
+        else{
+            NoVP *tioPt = avoPt->esquerda;
+            numeroCopias++;
+            numeroComparacao++;
+            if((tioPt != NULL) && (tioPt->cor == true)){
+                avoPt->cor = true;
+                paiPt->cor = false;
+                tioPt->cor = false;
+                ponteiro = avoPt;
+                numeroCopias++;
+            }
+            else{
+                numeroComparacao++;
+                if(ponteiro == paiPt->esquerda){
+                    rotacionaDireita(raiz,paiPt);
+                    ponteiro=paiPt;
+                    paiPt=ponteiro->pai;
+                    numeroCopias += 2;
+                }
+                rotacionaEsquerda(raiz,avoPt);
+                swap(paiPt->cor, avoPt->cor);
+                ponteiro=paiPt;
+                numeroCopias += 2;
             }
          }
     }
-    raiz->cor=PRETO;
+    raiz->cor=false;
 }
 
 void ArvoreVP::Inserir(Registro *registro){
     NoVP *pt = new NoVP(registro);
+    numeroCopias++;
     raiz = AVPInserir(raiz, pt);
     correcao(raiz, pt);
 }
-
-//void ArvoreVP::Inserir(const int &valor){
-//    NoVP *pt=new NoVP(valor);
-//   raiz=AVPInserir(raiz,pt);
-//    correcao(raiz,pt);
-//}
 
 void ArvoreVP::emOrdem(){
     auxEmOrdem(raiz);

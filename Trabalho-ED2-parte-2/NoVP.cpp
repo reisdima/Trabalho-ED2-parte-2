@@ -5,7 +5,8 @@ using namespace std;
 NoVP::NoVP(int valor)
 {
     this->valor = valor;
-    esquerda=direita = pai = NULL;
+    esquerda = direita = pai = NULL;
+    cor = 1;
 }
 
 NoVP::NoVP(Registro *registro)

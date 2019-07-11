@@ -37,6 +37,8 @@
 		<Unit filename="ArvoreB.h" />
 		<Unit filename="ArvoreVP.cpp" />
 		<Unit filename="ArvoreVP.h" />
+		<Unit filename="LZW.cpp" />
+		<Unit filename="LZW.h" />
 		<Unit filename="Leitura.cpp" />
 		<Unit filename="Leitura.h" />
 		<Unit filename="Menu.cpp" />

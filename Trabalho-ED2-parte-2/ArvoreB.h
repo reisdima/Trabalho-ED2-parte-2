@@ -17,9 +17,18 @@ public:
     void inserirNaoCheio(Registro *registro, NoB **pt, int posicaoChave);
     int Inserir(Registro *registro, NoB **pt);
 
+    unsigned long int getNumeroComparacao();
+    unsigned long int getNumeroComparacaoBusca();
+    unsigned long int getNumeroCopias();
+
+
 private:
     NoB *raiz;
     int d;
+    unsigned long int numeroComparacao;
+    unsigned long int numeroComparacaoBusca;
+    unsigned long int numeroCopias;
+
 
 
 };
