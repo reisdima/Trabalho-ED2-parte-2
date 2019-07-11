@@ -35,6 +35,8 @@
 		</Compiler>
 		<Unit filename="ArvoreB.cpp" />
 		<Unit filename="ArvoreB.h" />
+		<Unit filename="ArvoreHuffman.cpp" />
+		<Unit filename="ArvoreHuffman.h" />
 		<Unit filename="ArvoreVP.cpp" />
 		<Unit filename="ArvoreVP.h" />
 		<Unit filename="LZW.cpp" />
@@ -45,6 +47,8 @@
 		<Unit filename="Menu.h" />
 		<Unit filename="NoB.cpp" />
 		<Unit filename="NoB.h" />
+		<Unit filename="NoHuffman.cpp" />
+		<Unit filename="NoHuffman.h" />
 		<Unit filename="NoVP.cpp" />
 		<Unit filename="NoVP.h" />
 		<Unit filename="Registro.cpp" />

@@ -12,10 +12,14 @@ public:
     ~LZW();
     void codificar();
     void imprimirCodigo();
+    int getBytesComprimido();
+    float getTaxaCompressao();
 
 private:
     string texto;
     vector<int> codigoLZW;
+    float taxaCompressao;
+    float bytesComprimido;
 };
 
 #endif // LZW_H

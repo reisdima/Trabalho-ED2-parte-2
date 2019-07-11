@@ -30,7 +30,7 @@ void LZW::codificar(){
         if(tabela.find(p + c) != tabela.end())
             p = p + c;
         else{
-            cout << "Nao achou\t" << p+c << "\t\t" << endl;
+            //cout << "Nao achou\t" << p+c << "\t\t" << endl;
 
             codigoLZW.push_back(tabela[p]);
             tabela[p+c] = proxIndex;
@@ -39,7 +39,7 @@ void LZW::codificar(){
         }
         c = "";
     }
-    cout << p << "\t";
+    //cout << p << "\t";
     codigoLZW.push_back(tabela[p]);
 }
 
@@ -48,4 +48,28 @@ void LZW::imprimirCodigo(){
     for (int i = 0; i < codigoLZW.size(); i++) {
         cout << codigoLZW[i] << " ";
     }
+}
+
+
+float LZW::getTaxaCompressao(){
+    return taxaCompressao = ((float)bytesComprimido/(float)(texto.size()));
+}
+
+int LZW::getBytesComprimido(){
+    int contaDigitos = 0, valor;
+    for (int i = 0; i < codigoLZW.size(); i++)
+    {
+        valor = codigoLZW[i];
+        if (valor == 0) contaDigitos = 1;
+        else
+        {
+            while (valor != 0)
+            {
+              contaDigitos = contaDigitos + 1;
+              valor = valor / 10;
+            }
+        }
+    }
+    bytesComprimido = contaDigitos;
+    return bytesComprimido;
 }
