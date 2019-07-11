@@ -48,10 +48,13 @@ bool ArvoreB::Buscar(Registro *registro, NoB **pt, int *posicaoChave){
             i++;
         }
         *posicaoChave = i;
-        if(userId == registroAux[i]->getUserId() && movieId == registroAux[i]->getMovieId())
+        if(registroAux[i] != NULL && userId == registroAux[i]->getUserId() && movieId == registroAux[i]->getMovieId()){
             return true;
-        if(aux->ehFolha())
+        }
+        if(aux->ehFolha()){
             return false;
+        }
+
         aux = aux->getFilho(i);
     }
 }
@@ -61,46 +64,13 @@ void ArvoreB::Inserir(Registro *registro){
     NoB *pt = NULL;
     int posicaoChave = 0;
     bool achou = Buscar(registro, &pt, &posicaoChave);
+    cout << "oi" << endl;
     if(!achou){                                                     //Se não achou, inserir o valor na árvore
         if(pt->numeroChaves == 2*d){                                    //Se o numero de chaves no vetor for 2*d precisa fazer cisão
-            Cisao(registro, &pt, posicaoChave);
-            /*Registro **registros = pt->getRegistros();
-            Registro **auxRegistros = new Registro*[2*d + 1];
-            NoB *pai = pt->getPai();
-            if(pai == NULL){
-                int i = posicaoChave;
-                for(int j = 0; j < numeroChaves; j++){
-                    auxRegistros[j] = registros[j];
-                }
-                for(int j = numeroChaves - 1; j>= i; j--){
-                    auxRegistros[j+1] = registros[j];
-                }
-                auxRegistros[posicaoChave] = registro;
-                NoB *A = new NoB(d);
-                NoB *B = new NoB(d);
-                Registro **chavesAux = A->getRegistros();
-                for(int j = 0; j < d; j++){
-                    chavesAux[j] = auxRegistros[j];
-                }
-                chavesAux = B->getRegistros();
-                int k = 0;
-                for(int j = d+1; j < 2*d+1; j++){
-                    chavesAux[k] = auxRegistros[j];
-                    k++;
-                }
-                A->numeroChaves = 2;
-                B->numeroChaves = 2;
-
-                /*
-                chaves[0] = chaves[d];
-                pt->numeroChaves = numeroChaves++;
-                A->setPai(pt);
-                B->setPai(pt);
-                NoB **filhos = pt->getFilho();
-            }*/
+            Cisao(registro, &pt, posicaoChave, NULL);
         }
         else{
-            inserirNaoNulo(registro, &pt, posicaoChave);
+            inserirNaoCheio(registro, &pt, posicaoChave);
         }
     }
     else{
@@ -109,74 +79,80 @@ void ArvoreB::Inserir(Registro *registro){
 }
 
 
-void ArvoreB::Cisao(Registro *registro, NoB **pt, int posicaoChave){
-    Registro **registros = (*pt)->getRegistros();
-    Registro **auxRegistros = new Registro*[2*d + 1];
-    NoB *pai = (*pt)->getPai();
+void ArvoreB::Cisao(Registro *registro, NoB **pt, int posicaoChave, NoB *outroNo){
+    NoB *novoNo = new NoB(d);
     int numeroChaves = (*pt)->numeroChaves;
+    Registro **chaves = (*pt)->getRegistros();
+    Registro *novasChaves[2*d + 1];
+    for(int j = 0; j < numeroChaves; j++){
+        novasChaves[j] = chaves[j];
+    }
+    for(int j = numeroChaves - 1; j>= posicaoChave; j--){
+        novasChaves[j+1] = novasChaves[j];
+    }
+    novasChaves[posicaoChave] = registro;
+    Registro **chavesAux = novoNo->getRegistros();
+    int k = 0;
+    for(int j = d+1; j < 2*d + 1; j++){
+        chavesAux[k] = novasChaves[j];
+        k++;
+    }
+    for(int j = 0; j < d; j ++){
+        chaves[j] = novasChaves[j];
+    }
+    (*pt)->numeroChaves = d;
+    novoNo->numeroChaves = d;
+    NoB** filhosNovoNo = novoNo->getFilhos();
+    NoB** filhosPt = (*pt)->getFilhos();
+
+    filhosNovoNo[0] = filhosPt[3];
+    filhosNovoNo[1] = filhosPt[4];
+    filhosNovoNo[2] = outroNo;
+    if(outroNo != NULL){
+        novoNo->setFolha(false);
+        outroNo->setPai(novoNo);
+    }
+
+    NoB *pai = (*pt)->getPai();
     if(pai == NULL){
-        for(int j = 0; j < numeroChaves; j++){
-            auxRegistros[j] = registros[j];
-        }
-        for(int j = numeroChaves - 1; j >= posicaoChave; j--){
-            auxRegistros[j+1] = registros[j];
-        }
-        auxRegistros[posicaoChave] = registro;
-        NoB *esq = new NoB(d);
-        NoB *dir = new NoB(d);
-        Registro **chavesAux = esq->getRegistros();
-        for(int j = 0; j < d; j++){
-            chavesAux[j] = auxRegistros[j];
-        }
-        chavesAux = dir->getRegistros();
-        int k = 0;
-        for(int j = d+1; j < 2*d+1; j++){
-            chavesAux[k] = auxRegistros[j];
-            k++;
-        }
-        esq->numeroChaves = 2;
-        dir->numeroChaves = 2;
-        esq->setPai(*pt);
-        dir->setPai(*pt);
-        registros[0] = auxRegistros[(2*d + 1) / 2];
-        (*pt)->numeroChaves = 1;
-        (*pt)->setFilho(esq, 0);
-        (*pt)->setFilho(dir, 1);
-        (*pt)->setFolha(false);
+        NoB *novoPai = new NoB(d);
+        novoPai->setFolha(false);
+        Registro **chavesPai = novoPai->getRegistros();
+        chavesPai[0] = novasChaves[d];
+        novoPai->numeroChaves = 1;
+        NoB **filhosPai = novoPai->getFilhos();
+        filhosPai[0] = (*pt);
+        filhosPai[1] = novoNo;
+        (*pt)->setPai(novoPai);
+        novoNo->setPai(novoPai);
+        this->raiz = novoPai;
     }
     else{
-        for(int j = 0; j < numeroChaves; j++){
-            auxRegistros[j] = registros[j];
+        novoNo->setPai(pai);
+        int  numChavesPai = pai->numeroChaves;
+        Registro **chavesPai = pai->getRegistros();
+        int j = 0;
+        while(j < numChavesPai && chavesPai[j] < novasChaves[d])
+            j++;
+        if(numChavesPai < 2*d){
+            inserirNaoCheio(novasChaves[d], &pai, j);
+            NoB **filhosPai = pai->getFilhos();
+            for(int i = numChavesPai; i >= j; i--)
+                filhosPai[i+1] = filhosPai[i];
+            filhosPai[j+1] = novoNo;
         }
-        for(int j = numeroChaves - 1; j >= posicaoChave; j--){
-            auxRegistros[j+1] = registros[j];
+        else{
+            Cisao(novasChaves[d], &pai, j, novoNo);
+            NoB **filhosPai = pai->getFilhos();
+            for(int i = numChavesPai; i >= j; i--)
+                filhosPai[i+1] = filhosPai[i];
+            filhosPai[j+1] = novoNo;
         }
-        auxRegistros[posicaoChave] = registro;
-        NoB *esq = new NoB(d);
-        NoB *dir = new NoB(d);
-        Registro **chavesAux = esq->getRegistros();
-        for(int j = 0; j < d; j++){
-            chavesAux[j] = auxRegistros[j];
-        }
-        chavesAux = dir->getRegistros();
-        int k = 0;
-        for(int j = d+1; j < 2*d+1; j++){
-            chavesAux[k] = auxRegistros[j];
-            k++;
-        }
-        esq->numeroChaves = 2;
-        dir->numeroChaves = 2;
-        esq->setPai(*pt);
-        dir->setPai(*pt);
-        int posicaoA = Inserir(registro, &pai);
-        NoB **filhos = (*pt)->getFilhos();
-        filhos[posicaoA] = esq;
-        filhos[posicaoA + 1] = dir;
     }
 }
 
 
-void ArvoreB::inserirNaoNulo(Registro *registro, NoB **pt, int posicaoChave){
+void ArvoreB::inserirNaoCheio(Registro *registro, NoB **pt, int posicaoChave){
     int numeroChaves = (*pt)->numeroChaves;
     Registro **registros = (*pt)->getRegistros();
     for(int j = numeroChaves - 1; j >= posicaoChave; j--){  //Loop para puxar valores para frente no vetor
@@ -205,7 +181,7 @@ int ArvoreB::Inserir(Registro *registro, NoB **pt){
         (*pt)->numeroChaves = (*pt)->numeroChaves + 1;
     }
     else{
-        Cisao(registro, pt, i);
+        Cisao(registro, pt, i, NULL);
     }
     return i;
 }

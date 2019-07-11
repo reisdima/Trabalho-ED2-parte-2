@@ -49,17 +49,17 @@ void Menu::Parte1(){
         myfile.seekg(0, ios::end);
         int bytes = myfile.tellg();
         //Leitura::setBytes(bytes);
-        ArvoreVP *arvoreVP = new ArvoreVP();
-        Leitura::realizarLeitura(bytes, 10, &myfile, arvoreVP);
-        //ArvoreB *arvoreB;
-        //Leitura::realizarLeitura(bytes, 10, &myfile, arvoreB);
+        //ArvoreVP *arvoreVP = new ArvoreVP();
+        //Leitura::realizarLeitura(bytes, 10, &myfile, arvoreVP);
+        ArvoreB *arvoreB = new ArvoreB(2);
+        Leitura::realizarLeitura(bytes, 10, &myfile, arvoreB);
 	}
 }
 void Menu::Parte2(){
     cout << "Parte 2" << endl;
     string texto = "bananabanabofanas";
-    LZW teste(texto);
-    teste.codificar();
-    teste.imprimirCodigo();
+    //LZW teste(texto);
+    //teste.codificar();
+    //teste.imprimirCodigo();
 
 }

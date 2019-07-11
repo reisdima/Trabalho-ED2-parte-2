@@ -128,6 +128,6 @@ void Leitura::realizarLeitura(int bytes, int N, fstream *myfile, ArvoreB *arvore
         iss >> timestamp;
         cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl << endl;
         Registro *novoRegistro = new Registro(userId, movieId, rating, timestamp);
-        //arvoreB->Inserir(novoRegistro);
+        arvoreB->Inserir(novoRegistro);
     }
 }
