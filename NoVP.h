@@ -8,11 +8,14 @@ enum Cor{VERMELHO,PRETO};
 class NoVP
 {
 public:
+    NoVP(int valor);
+    NoVP(Registro *registro);
+    ~NoVP();
     bool cor; //0 = preto; 1 = vermelho
     int valor;
+    Registro *registro;
     NoVP *esquerda, *direita, *pai;
-    NoVP(int valor);
-    ~NoVP();
+
 
     int getMovieId();
     int getUserId();

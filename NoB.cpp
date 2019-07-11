@@ -49,3 +49,7 @@ bool NoB::ehFolha(){
 NoB* NoB::getFilho(int i){
     return this->filhos[i];
 }
+
+NoB** NoB::getFilhos(){
+    return filhos;
+}

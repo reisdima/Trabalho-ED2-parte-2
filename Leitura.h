@@ -1,6 +1,7 @@
 #ifndef LEITURA_H
 #define LEITURA_H
 #include "ArvoreVP.h"
+#include "ArvoreB.h"
 #include <fstream>
 
 using namespace std;
@@ -12,6 +13,7 @@ public:
     Leitura();
     ~Leitura();
     static void realizarLeitura(int bytes, int N, fstream *myfile, ArvoreVP *arvoreVP);
+    static void realizarLeitura(int bytes, int N, fstream *myfile, ArvoreB *arvoreB);
     //static void realizarLeitura(int bytes, int N, fstream *myfile);
     //static void realizarLeitura(int bytes, int N, fstream *myfile);
     static void setBytes(int bytes);

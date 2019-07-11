@@ -13,6 +13,7 @@ public:
 private:
     void Parte1();
     void Parte2();
+    void escritaSaidaAVP(int bytes, fstream myfile);
 };
 
 #endif // MENU_H

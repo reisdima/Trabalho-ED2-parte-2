@@ -1,7 +1,16 @@
 #include <iostream>
 #include <fstream>
+#include <iostream>
+#include <time.h>
+#include <stdlib.h>
+#include <sstream>
+#include <chrono>
+#include <array>
+#include <ctime>
+#include <random>
 #include "Leitura.h"
 #include "Menu.h"
+#include "LZW.h"
 using namespace std;
 
 Menu::Menu()
@@ -48,11 +57,27 @@ void Menu::Parte1(){
         myfile.seekg(0, ios::end);
         int bytes = myfile.tellg();
         //Leitura::setBytes(bytes);
-        ArvoreVP *arvoreVP;
-        Leitura::realizarLeitura(bytes, 10, &myfile, arvoreVP);
-
+        //ArvoreVP *arvoreVP = new ArvoreVP();
+        //Leitura::realizarLeitura(bytes, 10, &myfile, arvoreVP);
+            int vetN[7] = {5,5000,10000,50000,100000,500000};
+                ofstream myfileAVP ("saida.txt");
+                if (myfileAVP.is_open()){
+                    ArvoreVP *arvoreVP = new ArvoreVP();
+                    Leitura::realizarLeitura(bytes, 10, &myfile, arvoreVP);
+                    myfileAVP << "Tempo médio Arvore Vermelha e Preta N = 5"<<'\n';
+                }
+        myfileAVP.close();
+        //ArvoreB *arvoreB;
+        //Leitura::realizarLeitura(bytes, 10, &myfile, arvoreB);
 	}
 }
 void Menu::Parte2(){
     cout << "Parte 2" << endl;
+    string texto = "bananabanabofanas";
+    LZW teste(texto);
+    teste.codificar();
+    teste.imprimirCodigo();
+
 }
+
+
