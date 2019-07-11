@@ -114,12 +114,12 @@ void ArvoreVP::correcao(NoVP *&raiz,NoVP *&pt){
         paiPt=pt->pai;
         avoPt=pt->pai->pai;
         /**
-         Caso 1 (pai de pt é filho esquerdo do avo)
+         Caso 1 (pai de pt Ã© filho esquerdo do avo)
          */
         if(paiPt==avoPt->esquerda){
             NoVP *tioPt=avoPt->direita;
             /**
-             Caso 1.1 (tio do pt tambem é vermelho, é só recolorir)
+             Caso 1.1 (tio do pt tambem Ã© vermelho, Ã© sÃ³ recolorir)
              */
              if(tioPt!=NULL&&tioPt->cor==VERMELHO){
                 avoPt->cor=VERMELHO;
@@ -129,7 +129,7 @@ void ArvoreVP::correcao(NoVP *&raiz,NoVP *&pt){
              }
              else{
                  /**
-                 Caso 1.2 (pt é filho direito do pai, é só fazer a rotação esquerda)
+                 Caso 1.2 (pt Ã© filho direito do pai, Ã© sÃ³ fazer a rotaÃ§Ã£o esquerda)
                  */
                  if(pt==paiPt->direita){
                     rotacionaEsquerda(raiz,paiPt);
@@ -137,7 +137,7 @@ void ArvoreVP::correcao(NoVP *&raiz,NoVP *&pt){
                     paiPt=pt->pai;
                  }
                  /**
-                 Caso 1.3 (pt é filho esquerdo do pai, é só fazer a rotação direita)
+                 Caso 1.3 (pt Ã© filho esquerdo do pai, Ã© sÃ³ fazer a rotaÃ§Ã£o direita)
                  */
                  rotacionaDireita(raiz,avoPt);
                  swap(paiPt->cor,avoPt->cor);
@@ -145,12 +145,12 @@ void ArvoreVP::correcao(NoVP *&raiz,NoVP *&pt){
              }
         }
         /**
-         Caso 2 (pai de pt é filho esquerdo do avo)
+         Caso 2 (pai de pt Ã© filho esquerdo do avo)
          */
          else{
             NoVP *tioPt = avoPt->esquerda;
             /**
-             Caso 2.1 (tio do pt tambem é vermelho, só precisa recolorir)
+             Caso 2.1 (tio do pt tambem Ã© vermelho, sÃ³ precisa recolorir)
              */
             if((tioPt!=NULL)&&(tioPt->cor==VERMELHO)){
                 avoPt->cor=VERMELHO;
@@ -159,7 +159,7 @@ void ArvoreVP::correcao(NoVP *&raiz,NoVP *&pt){
                 pt=avoPt;
             }
             /**
-             Caso 2.2 (pt é filho esquerdo do pai, so precisar rotacionar direita)
+             Caso 2.2 (pt Ã© filho esquerdo do pai, so precisar rotacionar direita)
              */
             else{
                 if(pt==paiPt->esquerda){
@@ -168,7 +168,7 @@ void ArvoreVP::correcao(NoVP *&raiz,NoVP *&pt){
                     paiPt=pt->pai;
                 }
                 /**
-                 Caso 2.3 (pt é filho direito do pai, so precisar rotacionar esquerda)
+                 Caso 2.3 (pt Ã© filho direito do pai, so precisar rotacionar esquerda)
                  */
                  rotacionaEsquerda(raiz,avoPt);
                  swap(paiPt->cor, avoPt->cor);
@@ -184,12 +184,6 @@ void ArvoreVP::Inserir(Registro *registro){
     raiz = AVPInserir(raiz, pt);
     correcao(raiz, pt);
 }
-
-//void ArvoreVP::Inserir(const int &valor){
-//    NoVP *pt=new NoVP(valor);
-//   raiz=AVPInserir(raiz,pt);
-//    correcao(raiz,pt);
-//}
 
 void ArvoreVP::emOrdem(){
     auxEmOrdem(raiz);
