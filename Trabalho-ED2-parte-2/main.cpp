@@ -10,22 +10,21 @@ using namespace std;
 /**
  CODIGO DE HUFFMAN INICIO
 */
-
-//Nó da arvore Huffman
+//NÃ³ da arvore Huffman
 struct MinHeapNo{
     char dado;
     unsigned freq;
     struct MinHeapNo *esq, *dir;
 };
 
-// "grupo" de nós da árvore Huffman
+// "grupo" de nÃ³s da Ã¡rvore Huffman
 struct MinHeap{
     unsigned tam;
     unsigned capacidade;
     struct MinHeapNo** vetor;
 };
 
-//Aloca um novo nó da arv. Huffman dado o caractere e a sua frequencia
+//Aloca um novo nÃ³ da arv. Huffman dado o caractere e a sua frequencia
 struct MinHeapNo* newNo(char dado, unsigned freq){
     struct MinHeapNo* temp=(struct MinHeapNo*)malloc(sizeof(struct MinHeapNo));
     temp->esq=temp->dir=NULL;
@@ -37,21 +36,21 @@ struct MinHeapNo* newNo(char dado, unsigned freq){
 //Cria uma minHeap com a capacidade dada
 struct MinHeap* criaMinHeap(unsigned capacidade){
     struct MinHeap* minHeap = (struct MinHeap*)malloc(sizeof(struct MinHeap));
-    //tamanho atual é zero
+    //tamanho atual Ã© zero
     minHeap->tam=0;
     minHeap->capacidade=capacidade;
     minHeap->vetor=(struct MinHeapNo**)malloc(minHeap->capacidade*sizeof(struct MinHeapNo*));
     return minHeap;
 };
 
-//Troca dois nós min heap
+//Troca dois nÃ³s min heap
 void trocaMinHeapNo(struct MinHeapNo** a, struct MinHeapNo** b){
     struct MinHeapNo* t=*a;
     *a=*b;
     *b=t;
 }
 
-//minHeapify padrão
+//minHeapify padrÄƒo
 void minHeapify(struct MinHeap* minHeap, int idx){
     int menor=idx;
     int esquerda = 2*idx+1;
@@ -68,12 +67,12 @@ void minHeapify(struct MinHeap* minHeap, int idx){
     }
 }
 
-//Verifica se o tamanho da heap é 1 ou não
+//Verifica se o tamanho da heap Ã© 1 ou nÄƒo
 int tamUm(struct MinHeap* minHeap){
     return (minHeap->tam==1);
 }
 
-//Recebe o menor nó (em valor)
+//Recebe o menor nÃ³ (em valor)
 struct MinHeapNo* recebeMin(struct MinHeap* minHeap){
     struct MinHeapNo* temp = minHeap->vetor[0];
     minHeap->vetor[0]=minHeap->vetor[minHeap->tam-1];
@@ -82,7 +81,7 @@ struct MinHeapNo* recebeMin(struct MinHeap* minHeap){
     return temp;
 };
 
-//Insere um novo nó na MinHeap
+//Insere um novo nÃ³ na MinHeap
 void insereMinHeap(struct MinHeap* minHeap, struct MinHeapNo* minHeapNo){
     ++minHeap->tam;
     int i = minHeap->tam -1;
@@ -109,13 +108,13 @@ void printVet(int vetor[], int n){
     cout<<endl;
 }
 
-//Verifica se o nó é folha
+//Verifica se o nÃ³ Ã© folha
 int eFolha(struct MinHeapNo* raiz){
     return !(raiz->esq)&& !(raiz->dir);
 }
 
 //Cria uma min heap com capacidade=tam e insere todos os dados na min heap.
-//O tamanho inicial da min heap é = a capacidade;
+//O tamanho inicial da min heap Ã© = a capacidade;
 struct MinHeap* criaEMontaMinHeap(char dado[], int freq[], int tamanho){
     struct MinHeap* minHeap=criaMinHeap(tamanho);
     for(int i=0;i<tamanho;i++){
@@ -141,7 +140,7 @@ struct MinHeapNo* montaHuffman(char dado[], int freq[], int tamanho){
         topo->dir=direita;
         insereMinHeap(minHeap,topo);
     }
-    //4- o no que sobrou é a raiz
+    //4- o no que sobrou Ã© a raiz
     return recebeMin(minHeap);
 };
 
@@ -162,7 +161,7 @@ void printHuffman(struct MinHeapNo* raiz, int vet[], int topo){
 }
 
 void Huffman(char dado[], int freq[], int tam){
-    struct MinHeapNo* raiz = montaHuffman(dado,freq,tam);
+    struct MinHeapNo* raiz=montaHuffman(dado,freq,tam);
     int vet[ALTMAX], topo=0;
     printHuffman(raiz,vet,topo);
 }
@@ -199,11 +198,9 @@ int main()
 
 
 /**
-    TESTE CODIFICAÇÃO HUFFMAN
-    char vet[]={ 'a', 'b', 'c', 'd', 'e', 'f' };
-    int freq[]={ 5, 9, 12, 13, 16, 45 };
-    int tam = sizeof(vet)/sizeof(vet[0]);
-    Huffman(vet,freq,tam);
+    TESTE CODIFICAÃ‡Ä‚O HUFFMAN
+    //string texto="Huffman coding is a data compression algorithm.";
+    //montaHuffman(texto);
  */
 
     return 0;
