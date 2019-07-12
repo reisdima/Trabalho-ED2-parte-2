@@ -5,6 +5,10 @@
 #include <fstream>
 
 using namespace std;
+/** Classe auxiliar para leitura de arquivo
+ *  e insercao e busca em arvores
+ *
+ */
 
 class Leitura
 {
@@ -16,8 +20,6 @@ public:
     static void realizarLeitura(int bytes, int N, fstream *arquivoLeitura, ArvoreB *arvoreB);
     static double realizarBusca(int bytes, int N, fstream *arquivoLeitura, ArvoreB *arvoreB);
     static double realizarBusca(int bytes, int N, fstream *arquivoLeitura, ArvoreVP *arvoreVP);
-    static void setBytes(int bytes);
-    static void printBytes();
 private:
 
 };

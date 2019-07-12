@@ -30,6 +30,8 @@ void Menu::ExibirMenu(){
     while(escolha != 0){
         cout << endl << "1. Arvore VP" << endl;
         cout << "2. Arvore B" << endl;
+        cout << "3. LZW" << endl;
+        cout << "4. Huffman" << endl;
         cout << "0. Encerrar o programa" << endl << endl;
         cin >> escolha;
         switch(escolha){
@@ -53,6 +55,8 @@ void Menu::ExibirMenu(){
     }
 }
 
+//Cria uma arvore para cada valor de N e realiza busca
+//de outros N registros para cada valor de N
 void Menu::Parte1_ArvoreB(){
     unsigned long int numeroComparacao[tamanhoN];
     unsigned long int numeroComparacaoBusca[tamanhoN];
@@ -76,27 +80,25 @@ void Menu::Parte1_ArvoreB(){
         for(int i = 0; i < tamanhoN; i++){
             cout << "PARA N = " << vetorN[i] << endl << endl;
             arquivoSaida << "PARA N = " << vetorN[i] << endl << endl;
-            for(int j = 0; j < 5; j++){
-                ArvoreB *arvoreB = new ArvoreB(2);
+            ArvoreB *arvoreB = new ArvoreB(2);
 
-                std::chrono::time_point<std::chrono::system_clock> comeco, fim;
+            std::chrono::time_point<std::chrono::system_clock> comeco, fim;
 
-                comeco = std::chrono::system_clock::now();
-                Leitura::realizarLeitura(bytes, vetorN[i], &myfile, arvoreB);
-                fim = std::chrono::system_clock::now();
+            comeco = std::chrono::system_clock::now();
+            Leitura::realizarLeitura(bytes, vetorN[i], &myfile, arvoreB);
+            fim = std::chrono::system_clock::now();
 
-                tempoTotalBusca[i] += Leitura::realizarBusca(bytes, vetorN[i], &myfile, arvoreB);
-                numeroComparacaoBusca[i] += arvoreB->getNumeroComparacaoBusca();
+            tempoTotalBusca[i] += Leitura::realizarBusca(bytes, vetorN[i], &myfile, arvoreB);
+            numeroComparacaoBusca[i] += arvoreB->getNumeroComparacaoBusca();
 
-                double tempoInsercao = std::chrono::duration_cast<std::chrono::milliseconds>(fim - comeco).count();
-                tempoTotalInsercao[i] += tempoInsercao;
-                numeroComparacao[i] += arvoreB->getNumeroComparacao();
-                numeroCopias[i] += arvoreB->getNumeroCopias();
-            }
-            cout << "Tempo total para as 5 iteracoes: " << tempoTotalInsercao[i] << endl;
-            cout << "Numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i] << endl;
-            cout << "Numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i] << endl;
-            cout << "Numero de copia para as 5 iteracoes: " << numeroCopias[i] << endl;
+            double tempoInsercao = std::chrono::duration_cast<std::chrono::milliseconds>(fim - comeco).count();
+            tempoTotalInsercao[i] += tempoInsercao;
+            numeroComparacao[i] += arvoreB->getNumeroComparacao();
+            numeroCopias[i] += arvoreB->getNumeroCopias();
+            cout << "Tempo total: " << tempoTotalInsercao[i] << endl;
+            cout << "Numero de comparacoes: " << numeroComparacao[i] << endl;
+            cout << "Numero de comparacoes ao fazer busca: " << numeroComparacaoBusca[i] << endl;
+            cout << "Numero de copia: " << numeroCopias[i] << endl;
             cout << "Media de tempo para as 5 iteracoes: " << tempoTotalInsercao[i]/5 << endl;
             cout << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
             cout << "Media do numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i]/5 << endl;
@@ -179,35 +181,7 @@ void Menu::Parte1_ArvoreVP(){
 	}
 }
 
-void Menu::Parte1(){
-    fstream myfile;
-	myfile.open("ratings.csv");
-	if(myfile.is_open()){
-        myfile.seekg(0, ios::end);
-        int bytes = myfile.tellg();
-        for(int i = 0; i < 10; i ++){
-            for(int j = 0; j < 50; j++){
-            for(int j = 0; j < 1; j++){
-                ArvoreVP *arvoreVP = new ArvoreVP();
-                Leitura::realizarLeitura(bytes, vetorN[i], &myfile, arvoreVP);
-            }
-            }
-        }
-	}
-	else{
-        cout << "Arquivo nao encontrado" << endl;
-	}
-}
-
-void Menu::Parte2(){
-    cout << "Parte 2" << endl;
-    string texto = "bananabanabofanas";
-    //LZW teste(texto);
-    //teste.codificar();
-    //teste.imprimirCodigo();
-
-}
-
+//Ler o arquivo que contem os valores de N e salva num vetor
 void Menu::leituraN(){
     fstream entradaN;
     entradaN.open("entrada.txt");
@@ -225,23 +199,23 @@ void Menu::leituraN(){
             getline(entradaN, aux);
             iss.str(aux);
             iss >> auxInt;
+            cout << auxInt << endl;
             iss.clear();
             vetorN[i] = auxInt;
         }
-        for(int i = 0 ; i < tamanhoN; i++)
-            cout << vetorN[i] << endl;
     }
 }
 
 
 void Menu::Parte2_LZW(){
+    for(int i = 0; i < tamanhoN; i++)
+        cout << vetorN[i] << endl;
     fstream file("movies_metadata.csv");
-    if(!file)
-    {
+    if(!file.is_open()){
         cout<<"Arquivo movies_metadata nao encontrado"<<endl;
         exit(0);
     }
-    ofstream file2("SaidaLZW.txt",ios::out);
+    ofstream file2("SaidaLZW.txt");
     string buffer;
     vector<vector<string> > linhas; //vetor de vetor para toads as linhas
 
@@ -251,34 +225,23 @@ void Menu::Parte2_LZW(){
     while(!file.eof()){
         getline(file, buffer); //ler cada linha
         stringstream ss(buffer); //colocar a linha lida num stringstream
-
         vector<string> linha; //iniciar o vetor da linha
         bool flag = false;
-        while(getline(ss, buffer)) { //ler cada coluna
-
+        while(getline(ss, buffer)){ //ler cada coluna
             int start = 0;
-
-            for(i = 0; i < buffer.length(); i++) {
-
-                if(buffer[i] == delimitador) {
-
+            for(i = 0; i < buffer.length(); i++){
+                if(buffer[i] == delimitador){
                     linha.push_back(buffer.substr(start, i-start));
                     start = i+1;
                 }
-
-                else if(buffer[i] == delimitador_2)
-                {
-                    for(i = i+1; i <= buffer.length(); i++)
-                    {
-                        if(i==buffer.length())
-                        {
+                else if(buffer[i] == delimitador_2){
+                    for(i = i+1; i <= buffer.length(); i++){
+                        if(i==buffer.length()){
                             flag = true;
                             linha.push_back(buffer.substr(start, (i-1)-start));
                             break;
                         }
-
-                        if(buffer[i] == delimitador_2 && buffer[i+1] == delimitador)
-                        {
+                        if(buffer[i] == delimitador_2 && buffer[i+1] == delimitador){
                             linha.push_back(buffer.substr(start, i-start+1));
                             i++;
                             start = i+1;
@@ -289,17 +252,13 @@ void Menu::Parte2_LZW(){
                        break;
                 }
             }
-
-            if(i - start != 0 && flag ==false)
-            {
-                    linha.push_back(buffer.substr(start, (i-1)-start));
+            if(i - start != 0 && flag ==false){
+                linha.push_back(buffer.substr(start, (i-1)-start));
             }
         }
         linhas.push_back(linha);
     }
-        cout<< "------------  Compressao LZW ----------------"<<endl<<endl;
     int numLinhas = linhas.size();
-    cout <<  "Num: " << numLinhas << endl;
     unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();    //seed para gerar numeros aleatorios sempre (relogio do computador)
     std::default_random_engine generator(seed);                                         //gerador de numeros aleatorios com a semente
     std::uniform_int_distribution<int> distribution(1,numLinhas);                       //gera um numero aleatorio
@@ -315,15 +274,15 @@ void Menu::Parte2_LZW(){
     std::chrono::time_point<std::chrono::system_clock> start, end; //inicializa as variaveis para guardar o tempo
     int aleatorio = 0;
 
-    for(int k=0; k<tamanhoN ; k++){
-        cout<<"N: "<<vetorN[k]<<endl<<endl;
+    for(int k = 0; k < tamanhoN; k++){
+        cout << "N: " << vetorN[k] << endl << endl;
 
         totalBytes = 0; //total de bytes nao compimidos
         totalBytesComp = 0; //total de bytes comprimidos
         razaoCompressao = 0;
         tempoTotal = 0;
         string textoTotal;
-        for(int l=1; l<=vetorN[k] ; l++){
+        for(int l=1; l <= vetorN[k] ; l++){
             aleatorio = distribution(generator); //pega a linha aleatoria
             bool flg = false;
 
@@ -356,74 +315,50 @@ void Menu::Parte2_LZW(){
             }
         }
 
-        cout<<"Total Bytes: "<<totalBytes<<endl;
-        cout<<"Total Bytes Comprimido: "<<totalBytesComp<<endl;
-        cout<<"Razao de Compressao Media: "<<razaoCompressao/(float)vetorN[k]<<endl;
-        cout<<"Tempo Total: "<<tempoTotal<<"ms"<<endl;
+        cout << "Total Bytes: " << totalBytes << endl;
+        cout << "Total Bytes Comprimido: " << totalBytesComp << endl;
+        cout << "Razao de Compressao Media: " << razaoCompressao/(float)vetorN[k] << endl;
+        cout << "Tempo Total: " << tempoTotal <<" ms" << endl;
 
         vetTotalBytes[k] = totalBytes;
         vetTotalBytesComp[k] = totalBytesComp;
         vetRazaoCompressao[k] = razaoCompressao/(float)(vetorN[k]);
         vetTempoTotal[k] = tempoTotal;
-        cout<<endl<<"-----------------"<<endl;
     }
 
 
-    cout<<"----------------- METRICAS LZW ------------------"<<endl;
-    file2<<"----------------- METRICAS LZW ------------------"<<endl;
-    for(int k=0; k<tamanhoN ; k++){
-        cout<<endl<<endl;
-        cout<<" N = " << vetorN[k] << ": "<<endl;
-        cout<<"-------------------------------------------------" <<endl;
-        cout<<"|     METRICAS       |            LZW           |" <<endl;
-        cout<<"|--------------------|--------------------------|" <<endl;
-        cout<<"|     TOTAL BYTES    |"<< vetTotalBytes[k] << "\t\t\t|" <<endl;
-        cout<<"|--------------------|--------------------------|" <<endl;
-        cout<<"|  TOTAL BYTES COMP  |"<< vetTotalBytesComp[k] <<"\t\t\t|"<<endl;
-        cout<<"|--------------------|--------------------------|" <<endl;
-        cout<<"|     RAZAO COMP     |"<< vetRazaoCompressao[k] <<"\t\t\t| "<<endl;
-        cout<<"|--------------------|--------------------------|" <<endl;
-        cout<<"|     TEMPO TOTAL    |"<< vetTempoTotal[k] <<" ms \t\t\t| "<<endl;
-        cout<<"-------------------------------------------------" <<endl;
+    for(int k = 0; k < tamanhoN ; k++){
+        cout << endl << endl;
+        cout << "PARA N = " << vetorN[k] << endl;
+        cout << "Total de bytes: "<< vetTotalBytes[k] << endl;
+        cout << "Total de bytes comprimidos: " << vetTotalBytesComp[k] << endl;
+        cout << "Razao de compressao: " << vetRazaoCompressao[k] << endl;
+        cout << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl;
 
-         file2<<endl<<endl;
-        file2<<" N = " << vetorN[k] << ": "<<endl;
-        file2<<"-------------------------------------------------" <<endl;
-        file2<<"|     METRICAS       |            LZW           |" <<endl;
-        file2<<"|--------------------|--------------------------|" <<endl;
-        file2<<"|     TOTAL BYTES    |"<< vetTotalBytes[k] << "\t\t\t|" <<endl;
-        file2<<"|--------------------|--------------------------|" <<endl;
-        file2<<"|  TOTAL BYTES COMP  |"<< vetTotalBytesComp[k] <<"\t\t\t|"<<endl;
-        file2<<"|--------------------|--------------------------|" <<endl;
-        file2<<"|     RAZAO COMP     |"<< vetRazaoCompressao[k] <<"\t\t\t| "<<endl;
-        file2<<"|--------------------|--------------------------|" <<endl;
-        file2<<"|     TEMPO TOTAL    |"<< vetTempoTotal[k] <<" ms \t\t\t| "<<endl;
-        file2<<"-------------------------------------------------" <<endl;
+        file2 << endl<<endl;
+        file2 << "PARA N = " << vetorN[k] << endl;
+        file2 << "Total de bytes: "<< vetTotalBytes[k] << endl;
+        file2 << "Total de bytes comprimidos: " << vetTotalBytesComp[k] << endl;
+        file2 << "Razao de compressao: " << vetRazaoCompressao[k] << endl;
+        file2 << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl;
     }
 }
 
 
 
 void Menu::Parte2_Huffman(){
-        //******************************************************
-    //*                                                    *
-    //*                Compressao Huffman                  *
-    //*                                                    *
-    //******************************************************
-
     /**
-        - Leitura do Arquivo
+    - Leitura do Arquivo
        A leitura de arquivo funciona a partir de um vector de vector chamado linhas que vai guardar todas as linhas do arquivo.
        Existe um vector chamado linha que armazena a informacao de cada coluna do arquivo.
        Assim é feito a leitura e armazenamento nesses vectors, obedecendo os chars delimitadores e enclosures.
     */
     fstream file("movies_metadata.csv");
-    if(!file)
-    {
+    if(!file.is_open()){
         cout<<"Arquivo movies_metadata nao encontrado"<<endl;
         exit(0);
     }
-    ofstream file2("saidaHuffman.txt",ios::out);
+    ofstream file2("saidaHuffman.txt");
     string buffer;
     vector<vector<string> > linhas; //vetor de vetor para toads as linhas
 
@@ -437,44 +372,32 @@ void Menu::Parte2_Huffman(){
 
         vector<string> linha; //iniciar o vetor da linha
         bool flag = false;
-        while(getline(ss, buffer)) { //ler cada coluna
-
+        while(getline(ss, buffer)){ //ler cada coluna
             int start = 0;
-
-            for(i = 0; i < buffer.length(); i++) {
-
-                if(buffer[i] == delimitador) {
-
+            for(i = 0; i < buffer.length(); i++){
+                if(buffer[i] == delimitador){
                     linha.push_back(buffer.substr(start, i-start));
                     start = i+1;
                 }
-
-                else if(buffer[i] == delimitador_2)
-                {
-                    for(i = i+1; i <= buffer.length(); i++)
-                    {
-                        if(i==buffer.length())
-                        {
+                else if(buffer[i] == delimitador_2){
+                    for(i = i+1; i <= buffer.length(); i++){
+                        if(i == buffer.length()){
                             flag = true;
                             linha.push_back(buffer.substr(start, (i-1)-start));
                             break;
                         }
-
-                        if(buffer[i] == delimitador_2 && buffer[i+1] == delimitador)
-                        {
+                        if(buffer[i] == delimitador_2 && buffer[i+1] == delimitador){
                             linha.push_back(buffer.substr(start, i-start+1));
                             i++;
                             start = i+1;
                             break;
                         }
                     }
-                    if(i>buffer.length())
+                    if(i > buffer.length())
                        break;
                 }
             }
-
-            if(i - start != 0 && flag ==false)
-            {
+            if((i-start) != 0 && flag == false){
                     linha.push_back(buffer.substr(start, (i-1)-start));
             }
         }
@@ -491,8 +414,6 @@ void Menu::Parte2_Huffman(){
         Gera um número aleatório de qual registro(linha) será pego e acessa a coluna 9, que é a que está a sinopse.
         Após isso é feita a compressao do texto e armazenado as métricas para comparacao.
     */
-
-    cout<< "------------  Compressao Huffman ----------------"<<endl<<endl;
     int numLinhas = linhas.size();
 
     unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();    //seed para gerar numeros aleatorios sempre (relogio do computador)
@@ -509,7 +430,7 @@ void Menu::Parte2_Huffman(){
     double razaoCompressao = 0;
     double tempoTotal = 0;
 
-    std::chrono::time_point<std::chrono::system_clock> start, end; //inicializa as variaveis para guardar o tempo
+    std::chrono::time_point<std::chrono::system_clock> comeco, fim; //inicializa as variaveis para guardar o tempo
     int aleatorio = 0;
 
     for(int k=0; k<tamanhoN ; k++){
@@ -523,22 +444,19 @@ void Menu::Parte2_Huffman(){
         for(int l=0; l<vetorN[k] ; l++){
             aleatorio = distribution(generator); //pega a linha aleatoria
             bool flg = false;
-
             while(flg == false){
                 if(linhas[aleatorio].size() == 24){ //Checa qual registro está completo,ou seja, apresenta um numero de colunas igual dos indices, ja que registros incompletos causam crash's
-
                     if(linhas[aleatorio][9].size() > 3){//Checa se sinopse nao está vazia
                         flg = true;
                         string texto = linhas[aleatorio][9].substr(1, linhas[aleatorio][9].size() - 2); //mostrar sem as " "
                         totalBytes += texto.length(); //adiciona o total de bytes do texto sem comprimir
                         ArvoreHuffman* arv = new ArvoreHuffman(texto);
-
-                        start = std::chrono::system_clock::now(); //inicia cronometro
+                        comeco = std::chrono::system_clock::now(); //inicia cronometro
                         arv->criarArvoreHuffman();
                         arv->chamarCodificador();
-                        end = std::chrono::system_clock::now(); //para cronometro
+                        fim = std::chrono::system_clock::now(); //para cronometro
 
-                        tempoTotal += std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count(); //calcula tempo decorrido
+                        tempoTotal += std::chrono::duration_cast<std::chrono::milliseconds>(fim - comeco).count(); //calcula tempo decorrido
 
                         razaoCompressao += arv->getTaxaCompressao(); //soma as razoes de compressao.
                         totalBytesComp += arv->getBytesComprimido(); //adiciona o total de bytes do texto apos comprimir
@@ -564,40 +482,19 @@ void Menu::Parte2_Huffman(){
         vetTempoTotal[k] = tempoTotal;
         cout<<endl<<"-----------------"<<endl;
     }
+    for(int k = 0; k < tamanhoN; k++){
+        cout << endl<<endl;
+        cout << "PARA N = " << vetorN[k] << endl;
+        cout << "Total de bytes: "<< vetTotalBytes[k] << endl;
+        cout << "Total de bytes comprimidos: " << vetTotalBytesComp[k] << endl;
+        cout << "Razao de compressao: " << vetRazaoCompressao[k] << endl;
+        cout << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl;
 
-    cout<<"----------------- METRICAS HUFFMAN ------------------"<<endl;
-
-
-    file2<<"----------------- METRICAS HUFFMAN ------------------"<<endl;
-
-    for(int k=0; k<tamanhoN ; k++){
-        cout<<endl<<endl;
-        cout<<" N = " << vetorN[k] << ": "<<endl;
-        cout<<"-------------------------------------------------" <<endl;
-        cout<<"|     METRICAS       |         HUFFMAN          |" <<endl;
-        cout<<"|--------------------|--------------------------|" <<endl;
-        cout<<"|     TOTAL BYTES    |"<< vetTotalBytes[k] << "\t\t\t|" <<endl;
-        cout<<"|--------------------|--------------------------|" <<endl;
-        cout<<"|  TOTAL BYTES COMP  |"<< vetTotalBytesComp[k] <<"\t\t\t|"<<endl;
-        cout<<"|--------------------|--------------------------|" <<endl;
-        cout<<"|     RAZAO COMP     |"<< vetRazaoCompressao[k] <<"\t\t\t| "<<endl;
-        cout<<"|--------------------|--------------------------|" <<endl;
-        cout<<"|     TEMPO TOTAL    |"<< vetTempoTotal[k] <<" ms \t\t\t| "<<endl;
-        cout<<"-------------------------------------------------" <<endl;
-
-        file2<<endl<<endl;
-        file2<<" N = " << vetorN[k] << ": "<<endl;
-        file2<<"-------------------------------------------------" <<endl;
-        file2<<"|     METRICAS       |         HUFFMAN          |" <<endl;
-        file2<<"|--------------------|--------------------------|" <<endl;
-        file2<<"|     TOTAL BYTES    |"<< vetTotalBytes[k] << "\t\t\t|" <<endl;
-        file2<<"|--------------------|--------------------------|" <<endl;
-        file2<<"|  TOTAL BYTES COMP  |"<< vetTotalBytesComp[k] <<"\t\t\t|"<<endl;
-        file2<<"|--------------------|--------------------------|" <<endl;
-        file2<<"|     RAZAO COMP     |"<< vetRazaoCompressao[k] <<"\t\t\t| "<<endl;
-        file2<<"|--------------------|--------------------------|" <<endl;
-        file2<<"|     TEMPO TOTAL    |"<< vetTempoTotal[k] <<" ms \t\t\t| "<<endl;
-        file2<<"-------------------------------------------------" <<endl;
-
+        file2 << endl<<endl;
+        file2 << "PARA N = " << vetorN[k] << endl;
+        file2 << "Total de bytes: "<< vetTotalBytes[k] << endl;
+        file2 << "Total de bytes comprimidos: " << vetTotalBytesComp[k] << endl;
+        file2 << "Razao de compressao: " << vetRazaoCompressao[k] << endl;
+        file2 << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl;
     }
 }

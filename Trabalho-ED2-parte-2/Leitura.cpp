@@ -19,9 +19,6 @@ Leitura::~Leitura()
     //dtor
 }
 
-void Leitura::setBytes(int bytes){
-    //bytes = bytes;
-}
 
 
 void Leitura::realizarLeitura(int bytes, int N, fstream *myfile, ArvoreVP *arvoreVP){

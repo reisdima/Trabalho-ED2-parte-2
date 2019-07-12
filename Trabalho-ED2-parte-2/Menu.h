@@ -15,8 +15,6 @@ private:
     int tamanhoN;
     void Parte1_ArvoreB();
     void Parte1_ArvoreVP();
-    void Parte1();
-    void Parte2();
     void Parte2_LZW();
     void Parte2_Huffman();
     void leituraN();
