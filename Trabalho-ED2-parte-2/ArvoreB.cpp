@@ -21,19 +21,25 @@ bool ArvoreB::Buscar(Registro *registro){
     NoB *aux = raiz;
     int userId = registro->getUserId();
     int movieId = registro->getMovieId();
+    numeroComparacaoBusca++;
     while(aux != NULL){
         int numeroChaves = aux->numeroChaves;
         Registro **registroAux = aux->getRegistros();
         int i = 0;
+        numeroComparacaoBusca++;
         while(i < numeroChaves && (registroAux[i]->getUserId() < userId ||
                                    (registroAux[i]->getUserId() == userId && registroAux[i]->getMovieId() < movieId))){
             i++;
+            numeroComparacaoBusca += 3;
         }
-        if(registroAux[i] != NULL && userId == registroAux[i]->getUserId() && movieId == registroAux[i]->getMovieId())
+        numeroComparacaoBusca++;
+        if(i < numeroChaves && registroAux[i] != NULL && userId == registroAux[i]->getUserId() && movieId == registroAux[i]->getMovieId())
             return true;
+        numeroComparacaoBusca++;
         if(aux->ehFolha())
             return false;
         aux = aux->getFilho(i);
+        numeroComparacaoBusca++;
     }
 }
 

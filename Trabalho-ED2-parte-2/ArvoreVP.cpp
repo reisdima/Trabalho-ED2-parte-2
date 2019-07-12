@@ -234,4 +234,26 @@ unsigned long int ArvoreVP::getNumeroComparacaoBusca(){
     return this->numeroComparacaoBusca;
 }
 
+bool ArvoreVP::Buscar(Registro *registro){
+    numeroComparacaoBusca++;
+    if(raiz == NULL)
+        return false;
+    NoVP *aux = raiz;
+    int userId1 = registro->getUserId();
+    int movieId1 = registro->getMovieId();
 
+    numeroComparacaoBusca++;
+    while(aux != NULL){
+        int userId2 = aux->getUserId();
+        int movieId2 = aux->getMovieId();
+        numeroComparacaoBusca++;
+        if(userId1 < userId2 || (userId1 == userId2 && movieId1 < movieId2))
+            aux = aux->esquerda;
+        else if(userId1 > userId2 || (userId1 == userId2 && movieId1 > movieId2))
+            aux = aux->direita;
+        else
+            return true;
+        numeroComparacaoBusca += 2;
+    }
+    return false;
+}

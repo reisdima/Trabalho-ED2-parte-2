@@ -12,10 +12,10 @@ public:
     static int bytes;
     Leitura();
     ~Leitura();
-    static void realizarLeitura(int bytes, int N, fstream *myfile, ArvoreVP *arvoreVP);
-    static void realizarLeitura(int bytes, int N, fstream *myfile, ArvoreB *arvoreB);
-    //static void realizarLeitura(int bytes, int N, fstream *myfile);
-    //static void realizarLeitura(int bytes, int N, fstream *myfile);
+    static void realizarLeitura(int bytes, int N, fstream *arquivoLeitura, ArvoreVP *arvoreVP);
+    static void realizarLeitura(int bytes, int N, fstream *arquivoLeitura, ArvoreB *arvoreB);
+    static double realizarBusca(int bytes, int N, fstream *arquivoLeitura, ArvoreB *arvoreB);
+    static double realizarBusca(int bytes, int N, fstream *arquivoLeitura, ArvoreVP *arvoreVP);
     static void setBytes(int bytes);
     static void printBytes();
 private:

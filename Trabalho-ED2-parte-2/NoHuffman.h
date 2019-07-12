@@ -6,22 +6,25 @@ class NoHuffman
 {
 public:
     NoHuffman();
-    NoHuffman(char data_1, int freq_1);
-    NoHuffman(char data_1, int freq_1, NoHuffman* left, NoHuffman* right);
+    NoHuffman(char data, int frequencia);
+    NoHuffman(char data, int frequencia, NoHuffman* left, NoHuffman* right);
     ~NoHuffman();
     NoHuffman* getNoEsq();
     void setNoEsq(NoHuffman* novo);
     NoHuffman* getNoDir();
     void setNoDir(NoHuffman* novo);
-    int getFreq();
+
+    int getFrequencia();
     char getData();
-    void setFreq(int novaF);
-    void setData(char novaD);
+
+    void setFrequencia(int frequencia);
+    void setData(char data);
 
 private:
-    char data; //char do nó
-    int freq; //frequencia do no
-    NoHuffman *esq, *dir;
+    char data;
+    int frequencia;
+    NoHuffman *esq;
+    NoHuffman *dir;
 };
 
 #endif // NOHUFFMAN_H

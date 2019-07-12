@@ -14,12 +14,12 @@ public:
     void auxEmOrdem(NoVP *raiz);
     NoVP* AVPInserir(NoVP *raiz, NoVP *pt);
     void auxNivelOrdem(NoVP *raiz);
+    bool Buscar(Registro *registro);
 
     unsigned long int getNumeroComparacao();
     unsigned long int getNumeroComparacaoBusca();
     unsigned long int getNumeroCopias();
 
-protected:
     void rotacionaEsquerda(NoVP *&,NoVP *& );
     void rotacionaDireita(NoVP *&,NoVP *& );
     void correcao(NoVP *raiz,NoVP *pt);

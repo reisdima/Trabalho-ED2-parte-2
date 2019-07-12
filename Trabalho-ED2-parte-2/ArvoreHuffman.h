@@ -12,7 +12,7 @@ struct comp
 {
 	bool operator()(NoHuffman* l, NoHuffman* r)
 	{
-		return l->getFreq() > r->getFreq();
+		return l->getFrequencia() > r->getFrequencia();
 	}
 };
 
@@ -20,15 +20,18 @@ class ArvoreHuffman
 {
 public:
     unordered_map<char, string> huffmanCode;
-    ArvoreHuffman(string texto_1);
+    ArvoreHuffman(string texto);
     ~ArvoreHuffman();
     void auxDestrutor(NoHuffman *no);
-    void criaArvoreHuffman();
+
+    void criarArvoreHuffman();
     void codificador(NoHuffman* raiz, string str);
-    void chamaCodificador();
-    void imprimiCodigoHuffman();
+    void chamarCodificador();
+    void imprimirCodigoHuffman();
+
     float getBytesComprimido(){return bytesComprimido;};
-    float getTaxaCompressao(){return taxaCompressao = ((float)taxaCompressao/(float)(texto.size()*8));};
+    float getTaxaCompressao();
+
 private:
     string texto;
     NoHuffman* raiz;

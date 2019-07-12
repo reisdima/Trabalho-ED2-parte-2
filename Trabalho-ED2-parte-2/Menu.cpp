@@ -55,12 +55,16 @@ void Menu::ExibirMenu(){
 
 void Menu::Parte1_ArvoreB(){
     unsigned long int numeroComparacao[tamanhoN];
+    unsigned long int numeroComparacaoBusca[tamanhoN];
     unsigned long int numeroCopias[tamanhoN];
-    double tempoTotal[tamanhoN];
+    double tempoTotalInsercao[tamanhoN];
+    double tempoTotalBusca[tamanhoN];
     for(int i = 0; i < tamanhoN; i ++){
          numeroComparacao[i] = 0;
+         numeroComparacaoBusca[i] = 0;
          numeroCopias[i] = 0;
-         tempoTotal[i] = 0;
+         tempoTotalInsercao[i] = 0;
+         tempoTotalBusca[i] = 0;
     }
     fstream myfile;
     ofstream arquivoSaida;
@@ -74,26 +78,36 @@ void Menu::Parte1_ArvoreB(){
             arquivoSaida << "PARA N = " << vetorN[i] << endl << endl;
             for(int j = 0; j < 5; j++){
                 ArvoreB *arvoreB = new ArvoreB(2);
+
                 std::chrono::time_point<std::chrono::system_clock> comeco, fim;
+
                 comeco = std::chrono::system_clock::now();
                 Leitura::realizarLeitura(bytes, vetorN[i], &myfile, arvoreB);
                 fim = std::chrono::system_clock::now();
-                double total = std::chrono::duration_cast<std::chrono::milliseconds>(fim - comeco).count();
-                tempoTotal[i] += total;
+
+                tempoTotalBusca[i] += Leitura::realizarBusca(bytes, vetorN[i], &myfile, arvoreB);
+                numeroComparacaoBusca[i] += arvoreB->getNumeroComparacaoBusca();
+
+                double tempoInsercao = std::chrono::duration_cast<std::chrono::milliseconds>(fim - comeco).count();
+                tempoTotalInsercao[i] += tempoInsercao;
                 numeroComparacao[i] += arvoreB->getNumeroComparacao();
                 numeroCopias[i] += arvoreB->getNumeroCopias();
             }
-            cout << "Tempo total para as 5 iteracoes: " << tempoTotal[i] << endl;
+            cout << "Tempo total para as 5 iteracoes: " << tempoTotalInsercao[i] << endl;
             cout << "Numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i] << endl;
+            cout << "Numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i] << endl;
             cout << "Numero de copia para as 5 iteracoes: " << numeroCopias[i] << endl;
-            cout << "Media de tempo para as 5 iteracoes: " << tempoTotal[i]/5 << endl;
+            cout << "Media de tempo para as 5 iteracoes: " << tempoTotalInsercao[i]/5 << endl;
             cout << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
+            cout << "Media do numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i]/5 << endl;
             cout << "Media do numero de copia para as 5 iteracoes: " << numeroCopias[i]/5 << endl;
-            arquivoSaida << "Tempo total para as 5 iteracoes: " << tempoTotal[i] << endl;
+            arquivoSaida << "Tempo total para as 5 iteracoes: " << tempoTotalInsercao[i] << endl;
             arquivoSaida << "Numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i] << endl;
+            arquivoSaida << "Numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i] << endl;
             arquivoSaida << "Numero de copia para as 5 iteracoes: " << numeroCopias[i] << endl;
-            arquivoSaida << "Media de tempo para as 5 iteracoes: " << tempoTotal[i]/5 << endl;
+            arquivoSaida << "Media de tempo para as 5 iteracoes: " << tempoTotalInsercao[i]/5 << endl;
             arquivoSaida << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
+            arquivoSaida << "Media do numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i]/5 << endl;
             arquivoSaida << "Media do numero de copia para as 5 iteracoes: " << numeroCopias[i]/5 << endl;
         }
 	}
@@ -104,13 +118,16 @@ void Menu::Parte1_ArvoreB(){
 
 void Menu::Parte1_ArvoreVP(){
     unsigned long int numeroComparacao[tamanhoN];
+    unsigned long int numeroComparacaoBusca[tamanhoN];
     unsigned long int numeroCopias[tamanhoN];
-    double tempoTotal[tamanhoN];
+    double tempoTotalInsercao[tamanhoN];
+    double tempoTotalBusca[tamanhoN];
     for(int i = 0; i < tamanhoN; i ++){
-        cout << vetorN[i] << endl;
-        numeroComparacao[i] = 0;
-        numeroCopias[i] = 0;
-        tempoTotal[i] = 0;
+         numeroComparacao[i] = 0;
+         numeroComparacaoBusca[i] = 0;
+         numeroCopias[i] = 0;
+         tempoTotalInsercao[i] = 0;
+         tempoTotalBusca[i] = 0;
     }
     fstream myfile;
     ofstream arquivoSaida;
@@ -119,36 +136,43 @@ void Menu::Parte1_ArvoreVP(){
 	if(myfile.is_open() && arquivoSaida.is_open()){
         myfile.seekg(0, ios::end);
         int bytes = myfile.tellg();
-        for(int i = 0; i < tamanhoN; i++){
+        for(int i = 0; i < 1; i++){
             cout << "PARA N = " << vetorN[i] << endl << endl;
             arquivoSaida << "PARA N = " << vetorN[i] << endl << endl;
             for(int j = 0; j < 5; j++){
                 ArvoreVP *arvoreVP = new ArvoreVP();
+
                 std::chrono::time_point<std::chrono::system_clock> comeco, fim;
+
                 comeco = std::chrono::system_clock::now();
                 Leitura::realizarLeitura(bytes, vetorN[i], &myfile, arvoreVP);
                 fim = std::chrono::system_clock::now();
-                double total = std::chrono::duration_cast<std::chrono::milliseconds>(fim - comeco).count();
-                tempoTotal[i] += total;
+
+                tempoTotalBusca[i] += Leitura::realizarBusca(bytes, vetorN[i], &myfile, arvoreVP);
+                numeroComparacaoBusca[i] += arvoreVP->getNumeroComparacaoBusca();
+
+                double tempoInsercao = std::chrono::duration_cast<std::chrono::milliseconds>(fim - comeco).count();
+                tempoTotalInsercao[i] += tempoInsercao;
                 numeroComparacao[i] += arvoreVP->getNumeroComparacao();
                 numeroCopias[i] += arvoreVP->getNumeroCopias();
             }
-            cout << "Tempo total para as 5 iteracoes: " << tempoTotal[i] << endl;
+            cout << "Tempo total para as 5 iteracoes: " << tempoTotalInsercao[i] << endl;
             cout << "Numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i] << endl;
+            cout << "Numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i] << endl;
             cout << "Numero de copia para as 5 iteracoes: " << numeroCopias[i] << endl;
-            cout << "Media de tempo para as 5 iteracoes: " << tempoTotal[i]/5 << endl;
+            cout << "Media de tempo para as 5 iteracoes: " << tempoTotalInsercao[i]/5 << endl;
             cout << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
+            cout << "Media do numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i]/5 << endl;
             cout << "Media do numero de copia para as 5 iteracoes: " << numeroCopias[i]/5 << endl;
-            arquivoSaida << "Tempo total para as 5 iteracoes: " << tempoTotal[i] << endl;
+            arquivoSaida << "Tempo total para as 5 iteracoes: " << tempoTotalInsercao[i] << endl;
             arquivoSaida << "Numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i] << endl;
+            arquivoSaida << "Numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i] << endl;
             arquivoSaida << "Numero de copia para as 5 iteracoes: " << numeroCopias[i] << endl;
-            arquivoSaida << "Media de tempo para as 5 iteracoes: " << tempoTotal[i]/5 << endl;
+            arquivoSaida << "Media de tempo para as 5 iteracoes: " << tempoTotalInsercao[i]/5 << endl;
             arquivoSaida << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
+            arquivoSaida << "Media do numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i]/5 << endl;
             arquivoSaida << "Media do numero de copia para as 5 iteracoes: " << numeroCopias[i]/5 << endl;
-            cout << endl << endl;
-            arquivoSaida << endl << endl;
         }
-        arquivoSaida.close();
 	}
 	else{
         cout << "Arquivo nao encontrado" << endl;
@@ -488,8 +512,7 @@ void Menu::Parte2_Huffman(){
     std::chrono::time_point<std::chrono::system_clock> start, end; //inicializa as variaveis para guardar o tempo
     int aleatorio = 0;
 
-    for(int k=0; k<tamanhoN ; k++)
-    {
+    for(int k=0; k<tamanhoN ; k++){
         cout<<"N: "<<vetorN[k]<<endl<<endl;
 
         totalBytes = 0; //total de bytes nao compimidos
@@ -497,25 +520,22 @@ void Menu::Parte2_Huffman(){
         razaoCompressao = 0;
         tempoTotal = 0;
 
-        for(int l=0; l<vetorN[k] ; l++)
-        {
+        for(int l=0; l<vetorN[k] ; l++){
             aleatorio = distribution(generator); //pega a linha aleatoria
             bool flg = false;
 
-            while(flg == false)
-            {
+            while(flg == false){
                 if(linhas[aleatorio].size() == 24){ //Checa qual registro está completo,ou seja, apresenta um numero de colunas igual dos indices, ja que registros incompletos causam crash's
 
-                    if(linhas[aleatorio][9].size() > 3) //Checa se sinopse nao está vazia
-                    {
+                    if(linhas[aleatorio][9].size() > 3){//Checa se sinopse nao está vazia
                         flg = true;
                         string texto = linhas[aleatorio][9].substr(1, linhas[aleatorio][9].size() - 2); //mostrar sem as " "
                         totalBytes += texto.length(); //adiciona o total de bytes do texto sem comprimir
                         ArvoreHuffman* arv = new ArvoreHuffman(texto);
 
                         start = std::chrono::system_clock::now(); //inicia cronometro
-                        arv->criaArvoreHuffman();
-                        arv->chamaCodificador();
+                        arv->criarArvoreHuffman();
+                        arv->chamarCodificador();
                         end = std::chrono::system_clock::now(); //para cronometro
 
                         tempoTotal += std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count(); //calcula tempo decorrido
@@ -533,10 +553,10 @@ void Menu::Parte2_Huffman(){
             }
         }
 
-        cout<<"Total Bytes: "<<totalBytes<<endl;
-        cout<<"Total Bytes Comprimido: "<<totalBytesComp<<endl;
-        cout<<"Razao de Compressao Media: "<<razaoCompressao/(float)vetorN[k]<<endl;
-        cout<<"Tempo Total: "<<tempoTotal<<"ms"<<endl;
+        cout << "Total Bytes: " << totalBytes << endl;
+        cout << "Total Bytes Comprimido: " << totalBytesComp << endl;
+        cout << "Razao de Compressao Media: "<<razaoCompressao/(float)vetorN[k] << endl;
+        cout << "Tempo Total: " << tempoTotal << "ms" << endl;
 
         vetTotalBytes[k] = totalBytes;
         vetTotalBytesComp[k] = totalBytesComp;
@@ -550,8 +570,7 @@ void Menu::Parte2_Huffman(){
 
     file2<<"----------------- METRICAS HUFFMAN ------------------"<<endl;
 
-    for(int k=0; k<tamanhoN ; k++)
-    {
+    for(int k=0; k<tamanhoN ; k++){
         cout<<endl<<endl;
         cout<<" N = " << vetorN[k] << ": "<<endl;
         cout<<"-------------------------------------------------" <<endl;
