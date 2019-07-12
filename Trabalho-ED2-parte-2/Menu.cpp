@@ -97,19 +97,11 @@ void Menu::Parte1_ArvoreB(){
             cout << "Tempo total: " << tempoTotalInsercao[i] << endl;
             cout << "Numero de comparacoes: " << numeroComparacao[i] << endl;
             cout << "Numero de comparacoes ao fazer busca: " << numeroComparacaoBusca[i] << endl;
-            cout << "Numero de copia: " << numeroCopias[i] << endl;
-            cout << "Media de tempo para as 5 iteracoes: " << tempoTotalInsercao[i]/5 << endl;
-            cout << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
-            cout << "Media do numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i]/5 << endl;
-            cout << "Media do numero de copia para as 5 iteracoes: " << numeroCopias[i]/5 << endl;
+            cout << "Numero de copias: " << numeroCopias[i] << endl;
             arquivoSaida << "Tempo total para as 5 iteracoes: " << tempoTotalInsercao[i] << endl;
-            arquivoSaida << "Numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i] << endl;
-            arquivoSaida << "Numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i] << endl;
-            arquivoSaida << "Numero de copia para as 5 iteracoes: " << numeroCopias[i] << endl;
-            arquivoSaida << "Media de tempo para as 5 iteracoes: " << tempoTotalInsercao[i]/5 << endl;
-            arquivoSaida << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
-            arquivoSaida << "Media do numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i]/5 << endl;
-            arquivoSaida << "Media do numero de copia para as 5 iteracoes: " << numeroCopias[i]/5 << endl;
+            arquivoSaida << "Numero de comparacoes: " << numeroComparacao[i] << endl;
+            arquivoSaida << "Numero de comparacoes ao fazer busca: " << numeroComparacaoBusca[i] << endl;
+            arquivoSaida << "Numero de copias: " << numeroCopias[i] << endl;
         }
 	}
 	else{
@@ -140,39 +132,30 @@ void Menu::Parte1_ArvoreVP(){
         for(int i = 0; i < 1; i++){
             cout << "PARA N = " << vetorN[i] << endl << endl;
             arquivoSaida << "PARA N = " << vetorN[i] << endl << endl;
-            for(int j = 0; j < 5; j++){
-                ArvoreVP *arvoreVP = new ArvoreVP();
+            ArvoreVP *arvoreVP = new ArvoreVP();
 
-                std::chrono::time_point<std::chrono::system_clock> comeco, fim;
+            std::chrono::time_point<std::chrono::system_clock> comeco, fim;
 
-                comeco = std::chrono::system_clock::now();
-                Leitura::realizarLeitura(bytes, vetorN[i], &myfile, arvoreVP);
-                fim = std::chrono::system_clock::now();
+            comeco = std::chrono::system_clock::now();
+            Leitura::realizarLeitura(bytes, vetorN[i], &myfile, arvoreVP);
+            fim = std::chrono::system_clock::now();
 
-                tempoTotalBusca[i] += Leitura::realizarBusca(bytes, vetorN[i], &myfile, arvoreVP);
-                numeroComparacaoBusca[i] += arvoreVP->getNumeroComparacaoBusca();
+            tempoTotalBusca[i] += Leitura::realizarBusca(bytes, vetorN[i], &myfile, arvoreVP);
+            numeroComparacaoBusca[i] += arvoreVP->getNumeroComparacaoBusca();
 
-                double tempoInsercao = std::chrono::duration_cast<std::chrono::milliseconds>(fim - comeco).count();
-                tempoTotalInsercao[i] += tempoInsercao;
-                numeroComparacao[i] += arvoreVP->getNumeroComparacao();
-                numeroCopias[i] += arvoreVP->getNumeroCopias();
-            }
-            cout << "Tempo total para as 5 iteracoes: " << tempoTotalInsercao[i] << endl;
-            cout << "Numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i] << endl;
-            cout << "Numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i] << endl;
-            cout << "Numero de copia para as 5 iteracoes: " << numeroCopias[i] << endl;
-            cout << "Media de tempo para as 5 iteracoes: " << tempoTotalInsercao[i]/5 << endl;
-            cout << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
-            cout << "Media do numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i]/5 << endl;
-            cout << "Media do numero de copia para as 5 iteracoes: " << numeroCopias[i]/5 << endl;
-            arquivoSaida << "Tempo total para as 5 iteracoes: " << tempoTotalInsercao[i] << endl;
-            arquivoSaida << "Numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i] << endl;
-            arquivoSaida << "Numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i] << endl;
-            arquivoSaida << "Numero de copia para as 5 iteracoes: " << numeroCopias[i] << endl;
-            arquivoSaida << "Media de tempo para as 5 iteracoes: " << tempoTotalInsercao[i]/5 << endl;
-            arquivoSaida << "Media do numero de comparacoes para as 5 iteracoes: " << numeroComparacao[i]/5 << endl;
-            arquivoSaida << "Media do numero de comparacoes ao fazer busca para as 5 iteracoes: " << numeroComparacaoBusca[i]/5 << endl;
-            arquivoSaida << "Media do numero de copia para as 5 iteracoes: " << numeroCopias[i]/5 << endl;
+            double tempoInsercao = std::chrono::duration_cast<std::chrono::milliseconds>(fim - comeco).count();
+            tempoTotalInsercao[i] += tempoInsercao;
+            numeroComparacao[i] += arvoreVP->getNumeroComparacao();
+            numeroCopias[i] += arvoreVP->getNumeroCopias();
+
+            cout << "Tempo total: " << tempoTotalInsercao[i] << endl;
+            cout << "Numero de comparacoes: " << numeroComparacao[i] << endl;
+            cout << "Numero de comparacoes ao fazer busca: " << numeroComparacaoBusca[i] << endl;
+            cout << "Numero de copias: " << numeroCopias[i] << endl;
+            arquivoSaida << "Tempo total: " << tempoTotalInsercao[i] << endl;
+            arquivoSaida << "Numero de comparacoes: " << numeroComparacao[i] << endl;
+            arquivoSaida << "Numero de comparacoes ao fazer busca: " << numeroComparacaoBusca[i] << endl;
+            arquivoSaida << "Numero de copias: " << numeroCopias[i] << endl;
         }
 	}
 	else{
@@ -198,7 +181,6 @@ void Menu::leituraN(){
             getline(entradaN, aux);
             iss.str(aux);
             iss >> auxInt;
-            cout << auxInt << endl;
             iss.clear();
             vetorN[i] = auxInt;
         }
@@ -207,8 +189,6 @@ void Menu::leituraN(){
 
 
 void Menu::Parte2_LZW(){
-    for(int i = 0; i < tamanhoN; i++)
-        cout << vetorN[i] << endl;
     fstream file("movies_metadata.csv");
     if(!file.is_open()){
         cout<<"Arquivo movies_metadata nao encontrado"<<endl;
@@ -327,19 +307,17 @@ void Menu::Parte2_LZW(){
 
 
     for(int k = 0; k < tamanhoN ; k++){
-        cout << endl << endl;
         cout << "PARA N = " << vetorN[k] << endl;
         cout << "Total de bytes: "<< vetTotalBytes[k] << endl;
         cout << "Total de bytes comprimidos: " << vetTotalBytesComp[k] << endl;
         cout << "Razao de compressao: " << vetRazaoCompressao[k] << endl;
-        cout << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl;
+        cout << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl << endl;
 
-        file2 << endl<<endl;
         file2 << "PARA N = " << vetorN[k] << endl;
         file2 << "Total de bytes: "<< vetTotalBytes[k] << endl;
         file2 << "Total de bytes comprimidos: " << vetTotalBytesComp[k] << endl;
         file2 << "Razao de compressao: " << vetRazaoCompressao[k] << endl;
-        file2 << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl;
+        file2 << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl << endl;
     }
 }
 
@@ -482,18 +460,16 @@ void Menu::Parte2_Huffman(){
         cout<<endl<<"-----------------"<<endl;
     }
     for(int k = 0; k < tamanhoN; k++){
-        cout << endl<<endl;
         cout << "PARA N = " << vetorN[k] << endl;
         cout << "Total de bytes: "<< vetTotalBytes[k] << endl;
         cout << "Total de bytes comprimidos: " << vetTotalBytesComp[k] << endl;
         cout << "Razao de compressao: " << vetRazaoCompressao[k] << endl;
-        cout << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl;
+        cout << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl << endl;
 
-        file2 << endl<<endl;
         file2 << "PARA N = " << vetorN[k] << endl;
         file2 << "Total de bytes: "<< vetTotalBytes[k] << endl;
         file2 << "Total de bytes comprimidos: " << vetTotalBytesComp[k] << endl;
         file2 << "Razao de compressao: " << vetRazaoCompressao[k] << endl;
-        file2 << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl;
+        file2 << "Tempo total: " << vetTempoTotal[k] <<" ms" << endl << endl;
     }
 }
