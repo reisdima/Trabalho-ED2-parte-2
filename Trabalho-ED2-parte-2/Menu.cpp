@@ -13,7 +13,6 @@ using namespace std;
 
 Menu::Menu()
 {
-    this->vetorN = NULL;
     this->tamanhoN = 0;
 }
 
@@ -193,7 +192,7 @@ void Menu::leituraN(){
         iss >> tamanhoN;
         iss.clear();
         int k = 0;
-        vetorN = new int(tamanhoN);
+        vetorN = new int[tamanhoN];
         for(int i = 0; i < tamanhoN; i++){
             int auxInt;
             getline(entradaN, aux);
