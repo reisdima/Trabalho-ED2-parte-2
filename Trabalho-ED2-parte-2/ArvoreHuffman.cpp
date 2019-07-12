@@ -30,48 +30,39 @@ void ArvoreHuffman::auxDestrutor(NoHuffman *no){
 }
 
 void ArvoreHuffman::criarArvoreHuffman(){
-    //faz a contagem das frequencias de cada caractere e armazena em um map
-    unordered_map<char, int> freq;
+    unordered_map<char, int> frequencia;
     for (char ch: texto){
-        freq[ch]++;
+        frequencia[ch]++;
     }
 
-    //cria uma fila de prioridade para armazenar os nós da arvore
-    priority_queue<NoHuffman*, vector<NoHuffman*>, comp> fp;
+    //fila de prioridade para armazenar os nós da arvore
+    priority_queue<NoHuffman*, vector<NoHuffman*>, comp> fila;
 
     //Cria um nó folha para cada caractere e adiciona a fila de prioridade
-    for (auto pair: freq){
+    for (auto pair: frequencia){
         NoHuffman* no = new NoHuffman(pair.first,pair.second);
-        fp.push(no);
+        fila.push(no);
     }
 
-    while (fp.size() > 1){
+    while (fila.size() > 1){
         // Remove os nós com menor frequencia da fila
         NoHuffman *esq = new NoHuffman();
-        esq = fp.top(); fp.pop();
+        esq = fila.top(); fila.pop();
         NoHuffman *dir = new NoHuffman();
-        dir = fp.top(); fp.pop();
+        dir = fila.top(); fila.pop();
 
-
-        // Cria um nó interno cuja frequencia é a soma
-        // da frequencia dos dois nós
-        // e coloca esses nós como filhos,
-        // adicionando o novo nó a fila
+        //Cria no com frequencia igual a soma da frequencia
+        //da direita e da esquerda
         int soma = esq->getFrequencia() + dir->getFrequencia();
         NoHuffman *no = new NoHuffman('\0', soma, esq, dir);
-        fp.push(no);
+        fila.push(no);
     }
-
-    //coloca o ultimo nó da fila como raiz
-    raiz = fp.top();
+    raiz = fila.top();
 
 }
 
 void ArvoreHuffman::chamarCodificador(){
-    //Codifica cada caractere
-    codificador(raiz,"");
-
-    //Codifica a string completa
+    codificador(raiz, "");
     for (char ch: texto){
         codificada += huffmanCode[ch];
     }
@@ -79,17 +70,9 @@ void ArvoreHuffman::chamarCodificador(){
     bytesComprimido = (float)taxaCompressao/8.0;
 }
 
-/**
-    Função Recursiva que codifica o texto de acordo
-    com a arvore ja criada,
-*/
 void ArvoreHuffman::codificador(NoHuffman* raiz,string str){
-    if(raiz == nullptr){
+    if(raiz == nullptr)
         return;
-    }
-    //cout<<huffmanCode[raiz->getData()];
-
-    // encontra um nó folha
     if (!raiz->getNoEsq() && !raiz->getNoDir()){
         huffmanCode[raiz->getData()] = str;
     }

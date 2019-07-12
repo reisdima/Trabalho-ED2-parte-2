@@ -87,9 +87,6 @@ void ArvoreB::Inserir(Registro *registro){
             inserirNaoCheio(registro, &pt, posicaoChave);
         }
     }
-    else{
-        cout << "[WARNING] O registro ja foi inserido!" << endl;
-    }
 }
 
 

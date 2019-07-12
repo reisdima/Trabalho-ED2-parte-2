@@ -25,13 +25,9 @@ void LZW::codificar(){
     int proxIndex = 256;
     for(int i = 0; i < texto.length(); i ++){
         c += texto[i];
-        //if (i != texto.length() - 1)
-          //  c += texto[i + 1];
         if(tabela.find(p + c) != tabela.end())
             p = p + c;
         else{
-            //cout << "Nao achou\t" << p+c << "\t\t" << endl;
-
             codigoLZW.push_back(tabela[p]);
             tabela[p+c] = proxIndex;
             proxIndex++;
@@ -39,7 +35,6 @@ void LZW::codificar(){
         }
         c = "";
     }
-    //cout << p << "\t";
     codigoLZW.push_back(tabela[p]);
 }
 
@@ -57,14 +52,11 @@ float LZW::getTaxaCompressao(){
 
 int LZW::getBytesComprimido(){
     int contaDigitos = 0, valor;
-    for (int i = 0; i < codigoLZW.size(); i++)
-    {
+    for (int i = 0; i < codigoLZW.size(); i++){
         valor = codigoLZW[i];
         if (valor == 0) contaDigitos = 1;
-        else
-        {
-            while (valor != 0)
-            {
+        else{
+            while (valor != 0){
               contaDigitos = contaDigitos + 1;
               valor = valor / 10;
             }
