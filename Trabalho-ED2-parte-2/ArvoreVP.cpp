@@ -30,6 +30,9 @@ void ArvoreVP::auxEmOrdem(NoVP *raiz){
     auxEmOrdem(raiz->direita);
 }
 
+//A funcao ”AVPInserir”encontra a melhor posicao a se
+//inserir o Registro. Ao encontrar a melhor posicao se retorna
+//a funcao ”Inserir”que entao chama a funcao ”Correcao”.
 NoVP* ArvoreVP::AVPInserir(NoVP *noRaiz, NoVP *pt){
     numeroComparacao++;
     if(noRaiz==NULL){
@@ -140,6 +143,8 @@ void ArvoreVP::rotacionaDireita(NoVP *&noRaiz,NoVP *&pt ){
     numeroCopias += 2;
 }
 
+//A func˜ao ”Correcao”ira verificar se a Arvore Vermelho-
+//Preto formada esta seguindo aos requisitos adicionais de balanceamento
 void ArvoreVP::correcao(NoVP *raiz, NoVP *ponteiro){
     NoVP *paiPt = NULL;
     NoVP *avoPt = NULL;
@@ -149,10 +154,12 @@ void ArvoreVP::correcao(NoVP *raiz, NoVP *ponteiro){
         avoPt = ponteiro->pai->pai;
         numeroCopias += 2;
         numeroComparacao++;
+        //Caso 1 pai de pt é filho a esquerda do avo de pt
         if(paiPt == avoPt->esquerda){
             NoVP *tioPt = avoPt->direita;
             numeroCopias++;
             numeroComparacao += 2;
+            //Caso 1.1 O Tio do pt tambem é vermelho
             if(tioPt != NULL && tioPt->cor == true){
                 avoPt->cor=true;
                 paiPt->cor=false;
@@ -162,23 +169,27 @@ void ArvoreVP::correcao(NoVP *raiz, NoVP *ponteiro){
             }
             else{
                 numeroComparacao++;
+                //Caso 1.2 pt é filho a direita do pai (é feita rotação a esquerda)
                 if(ponteiro == paiPt->direita){
                     rotacionaEsquerda(raiz, paiPt);
                     ponteiro = paiPt;
                     paiPt = ponteiro->pai;
                     numeroCopias += 2;
                 }
-
+                //Caso 1.3 pt é filho a esquerda do pai (é feita rotação a direita)
                 rotacionaDireita(raiz, avoPt);
                 swap(paiPt->cor, avoPt->cor);;
                 ponteiro = paiPt;
                 numeroCopias += 2;
             }
         }
+        
+        //Caso 2 o pai do pt é filho a direita do avo do pt
         else{
             NoVP *tioPt = avoPt->esquerda;
             numeroCopias++;
             numeroComparacao++;
+            //Caso 2.1 o tio do pt tambe é vermelho
             if((tioPt != NULL) && (tioPt->cor == true)){
                 avoPt->cor = true;
                 paiPt->cor = false;
@@ -188,12 +199,14 @@ void ArvoreVP::correcao(NoVP *raiz, NoVP *ponteiro){
             }
             else{
                 numeroComparacao++;
+                //Caso 2.2 pt é filho a esquerda do pai (é feita rotação a direita)
                 if(ponteiro == paiPt->esquerda){
                     rotacionaDireita(raiz,paiPt);
                     ponteiro=paiPt;
                     paiPt=ponteiro->pai;
                     numeroCopias += 2;
                 }
+                //Caso 2.3 pt é filho a direita do pai (é feita rotação a esquerda)
                 rotacionaEsquerda(raiz,avoPt);
                 swap(paiPt->cor, avoPt->cor);
                 ponteiro=paiPt;
@@ -204,6 +217,9 @@ void ArvoreVP::correcao(NoVP *raiz, NoVP *ponteiro){
     raiz->cor=false;
 }
 
+//A func˜ao ”Inserir”que passa como parametro o Registro a
+//ser inserido na arvore (que contem os dados de ratings.csv)
+//e entao a funcao ”Inserir”utiliza a funcao ”AVPInserir”.
 void ArvoreVP::Inserir(Registro *registro){
     NoVP *pt = new NoVP(registro);
     numeroCopias++;
